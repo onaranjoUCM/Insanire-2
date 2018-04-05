@@ -7,9 +7,10 @@ public class PlayerMovement : MonoBehaviour {
     public float speed = 5;
     public int health = 100;
 
-    public GameObject Espada;
-    public GameObject Hacha;
+    //public GameObject Espada;
+    //public GameObject Hacha;
 
+    protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
     protected Collider2D swordcol;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Awake()
     {
+        /*
         if (Espada.activeSelf)
         {
             swordcol = GameObject.FindWithTag("sword1").GetComponent<Collider2D>();
@@ -27,6 +29,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             swordcol = GameObject.FindWithTag("hacha").GetComponent<Collider2D>();
         }
+        */
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         myanimator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
     }
@@ -42,19 +46,24 @@ public class PlayerMovement : MonoBehaviour {
     private void FixedUpdate()
     {
         Move();
-        
         if (Input.GetKeyDown(KeyCode.L))
         {
-            if (Espada.activeSelf) // mira si esta activo la espada
+            myanimator.SetTrigger("Punch");
+        }
+            /*
+            if (Input.GetKeyDown(KeyCode.L))
             {
-                myanimator.SetTrigger("Attack");
+                if (Espada.activeSelf) // mira si esta activo la espada
+                {
+                    myanimator.SetTrigger("Attack");
 
+                }
+                else if (Hacha.activeSelf)
+                {
+                    myanimator.SetTrigger("HachaAttack");
+                }
             }
-            else if (Hacha.activeSelf)
-            {
-                myanimator.SetTrigger("HachaAttack");
-            }
-        }     
+            */
     }
 
     protected void Move()
@@ -65,10 +74,29 @@ public class PlayerMovement : MonoBehaviour {
         float distance = move.magnitude;
 
         // Da la vuelta al sprite según la dirección
-        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == -1) || (move.x < 0 && Mathf.Round(transform.rotation.y) == 0)) {
+        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1)) {
             transform.Rotate(0f, 180f, 0f);
         }
 
+        /*
+        // Otra versión de lo anterior
+        bool flipSprite = (spriteRenderer.flipX ? (move.x < 0.01f) : (move.x > 0.01f));
+        if (flipSprite)
+        {
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+        }
+        */
+
+        // Activa la animación de caminar
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            myanimator.SetTrigger("WalkSide");
+        }
+        else
+        {
+            myanimator.SetTrigger("Idle");
+        }
+        
         // Comprueba obstáculos a los lados
         int countX = rb2d.Cast(new Vector2 (move.x, 0f), contactFilter, hitBuffer, distance);
         for (int i = 0; i < countX; i++)
@@ -120,6 +148,7 @@ public class PlayerMovement : MonoBehaviour {
         if (health > 100) { health = 100; }
         GameManager.instance.ActualizarTxtSalud(health);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
