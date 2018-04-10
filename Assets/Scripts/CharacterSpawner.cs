@@ -5,10 +5,10 @@ using UnityEngine;
 public class CharacterSpawner : MonoBehaviour {
 
     public GameObject[] Characters;
-    public Transform PlayerSpawnPoint;
+
 	// Use this for initialization
-	void Start () {
-        Instantiate(Characters[SeleccionPersonaje.PlayerNum], PlayerSpawnPoint.position, PlayerSpawnPoint.rotation);
+	void Awake () {
+        Instantiate(Characters[SeleccionPersonaje.PlayerNum], gameObject.transform.position, gameObject.transform.rotation);
 	}
 	
 	// Update is called once per frame

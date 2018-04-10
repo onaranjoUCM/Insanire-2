@@ -5,7 +5,7 @@ using System;
 
 [Serializable]
 public class Stat{
-
+    /*
     [SerializeField]
     private BarScript bar;
 
@@ -46,5 +46,5 @@ public class Stat{
     {
         this.MaxVal = maxVal;
         this.CurrentVal = currentVal;
-    }
+    }*/
 }

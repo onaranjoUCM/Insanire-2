@@ -7,8 +7,8 @@ public class PlayerMovement : MonoBehaviour {
     public float speed = 5;
     public int health = 100;
 
-    public GameObject Espada;
-    public GameObject Hacha;
+    //public GameObject Espada;
+    //public GameObject Hacha;
 
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
@@ -25,8 +25,10 @@ public class PlayerMovement : MonoBehaviour {
 
     void Awake()
     {
+        /*
         Energy.Initialize();
         Health.Initialize();
+        
         if (Espada.activeSelf)
         {
             swordcol = GameObject.FindWithTag("sword1").GetComponent<Collider2D>();
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             swordcol = GameObject.FindWithTag("hacha").GetComponent<Collider2D>();
         }
+        */
         myanimator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
     }
@@ -50,7 +53,7 @@ public class PlayerMovement : MonoBehaviour {
     private void FixedUpdate()
     {
         Move();
-        
+        /*
         if (Input.GetKeyDown(KeyCode.L))
         {
             if (Espada.activeSelf) // mira si esta activo la espada
@@ -63,6 +66,7 @@ public class PlayerMovement : MonoBehaviour {
                 myanimator.SetTrigger("HachaAttack");
             }
         }
+        
         if (Input.GetKeyDown(KeyCode.K))
         {
             Energy.CurrentVal -= 10;
@@ -76,6 +80,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             Health.CurrentVal -= 10;
         }
+        */
     }
 
     protected void Move()
@@ -113,7 +118,7 @@ public class PlayerMovement : MonoBehaviour {
         // Realiza el movimiento
         rb2d.position = rb2d.position + move;
     }
-    
+    /*
     void attack()
     {
         swordcol.enabled = true;
@@ -125,7 +130,7 @@ public class PlayerMovement : MonoBehaviour {
         myanimator.ResetTrigger("Attack");
         myanimator.ResetTrigger("HachaAttack");
     }
-
+    */
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {

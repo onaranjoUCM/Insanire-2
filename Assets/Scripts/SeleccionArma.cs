@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SeleccionArma : MonoBehaviour {
-    public static bool GameIsPaused;
+    /*public static bool GameIsPaused;
     public GameObject SeleccionArmaUI;
     public GameObject Espada;
     public GameObject Hacha;
@@ -37,5 +37,5 @@ public class SeleccionArma : MonoBehaviour {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
         Hacha.SetActive(true);
-    }
+    }*/
 }
