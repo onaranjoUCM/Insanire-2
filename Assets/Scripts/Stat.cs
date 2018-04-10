@@ -5,15 +5,13 @@ using System;
 
 [Serializable]
 public class Stat{
-    /*
-    [SerializeField]
-    private BarScript bar;
+   // [SerializeField]
+    // private .... es lo mejor
+    public BarScript bar;
 
-    [SerializeField]
-    private float maxVal;
+    public float maxVal;
 
-    [SerializeField]
-    private float currentVal;
+   public float currentVal;
 
     public float CurrentVal
     {
@@ -46,5 +44,6 @@ public class Stat{
     {
         this.MaxVal = maxVal;
         this.CurrentVal = currentVal;
-    }*/
+    }
+
 }

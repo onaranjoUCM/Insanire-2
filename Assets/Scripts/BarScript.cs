@@ -4,13 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BarScript : MonoBehaviour {
-    [SerializeField]
-    private float fillAmount; //es mas optimo supuestamente
-    [SerializeField]
-    private Image content;
+    public float fillAmount; //es mas optimo supuestamente
+    public Image content;
 
-    [SerializeField]
-    private float lerpSpeed;
+    public float lerpSpeed;
 
     public float MaxValue { get; set; }
     public float Value
