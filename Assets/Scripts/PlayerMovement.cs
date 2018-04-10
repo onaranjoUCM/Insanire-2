@@ -17,8 +17,16 @@ public class PlayerMovement : MonoBehaviour {
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
+    [SerializeField]
+    private Stat Energy;
+
+    [SerializeField]
+    private Stat Health;
+
     void Awake()
     {
+        Energy.Initialize();
+        Health.Initialize();
         if (Espada.activeSelf)
         {
             swordcol = GameObject.FindWithTag("sword1").GetComponent<Collider2D>();
@@ -54,7 +62,20 @@ public class PlayerMovement : MonoBehaviour {
             {
                 myanimator.SetTrigger("HachaAttack");
             }
-        }     
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Energy.CurrentVal -= 10;
+        }
+
+        if (Energy.CurrentVal > 100)
+        {
+            Energy.CurrentVal += Time.deltaTime + 1 ; // REGENERACION CON EL TIEMPO
+        }
+        if (Input.GetKeyDown(KeyCode.P)) // para comprobar que baja la vida, Omar tienes que meter aqui el el hacerte daño por ser golpeado
+        {
+            Health.CurrentVal -= 10;
+        }
     }
 
     protected void Move()
