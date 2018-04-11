@@ -7,21 +7,22 @@ public class PlayerMovement : MonoBehaviour {
     public float speed = 5;
     public int health = 100;
 
-    private string armaEquipada = "Cuchillo";
+    private string armaEquipada = "Punch";
+    private string animacionArma = "PlayerPunch";
     private int damage = 5;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
     protected Collider2D weaponCollider;
-    protected Animator myanimator;
+    protected Animator animator;
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        myanimator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
@@ -40,14 +41,13 @@ public class PlayerMovement : MonoBehaviour {
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
             {
-                //Attack();
                 StartCoroutine(Attack());
             }
         } else
         {
-            myanimator.SetTrigger("Dead");
+            animator.SetTrigger("Dead");
         }
     }
 
@@ -66,11 +66,11 @@ public class PlayerMovement : MonoBehaviour {
         // Activa la animación de caminar
         if (Input.GetAxis("Horizontal") != 0)
         {
-            myanimator.SetTrigger("WalkSide");
+            animator.SetTrigger("WalkSide");
         }
         else
         {
-            myanimator.SetTrigger("Idle");
+            animator.SetTrigger("Idle");
         }
         
         // Comprueba obstáculos a los lados
@@ -97,9 +97,10 @@ public class PlayerMovement : MonoBehaviour {
         rb2d.position = rb2d.position + move;
     }
 
+    // Ataque
     IEnumerator Attack()
     {
-        myanimator.SetTrigger("Punch");
+        animator.SetTrigger("Punch");
         weaponCollider.enabled = true;
         yield return new WaitForSeconds(0.1f);
         weaponCollider.enabled = false;
@@ -121,6 +122,7 @@ public class PlayerMovement : MonoBehaviour {
         GameManager.instance.ActualizarTxtSalud(health);
     }
     
+    // Comportamiento del arma al impactar a un enemigo
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
@@ -129,22 +131,26 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    // Cambia el arma equipada
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
 
         if (arma == "Espada")
         {
+            animacionArma = "PlayerSword";
             damage = 10;
         }
 
         if (arma == "Hacha")
         {
+            animacionArma = "PlayerAxe";
             damage = 20;
         }
 
         if (arma == "Arco")
         {
+            animacionArma = "PlayerBow";
             damage = 5;
         }
     }

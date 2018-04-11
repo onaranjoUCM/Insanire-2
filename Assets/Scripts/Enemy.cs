@@ -37,7 +37,15 @@ public class Enemy : MonoBehaviour {
 
     void Update()
     {
-        if (GetComponent<SpriteRenderer>().isVisible) { Move(); }
+        if (GetComponent<SpriteRenderer>().isVisible) {
+            if(health > 0) { 
+                Move();
+            }
+            else
+            {
+                animator.SetTrigger("wolfDead");
+            }
+        }
     }
 
     void Move()
