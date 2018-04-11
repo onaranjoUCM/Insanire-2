@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour {
     public float speed = 3f;
     public float attackSpeed = 1;
     public int damage = 10;
+    public int health = 100;
 
     float distanceToPlayer = 1f;
     float signoVector;
@@ -108,5 +109,12 @@ public class Enemy : MonoBehaviour {
             yield return new WaitForSeconds(attackSpeed);
             waiting = false;
         }
+    }
+
+    // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
+    public void ReducirSalud(int reduccion)
+    {
+        health -= reduccion;
+        if (health < 0) { health = 0; }
     }
 }

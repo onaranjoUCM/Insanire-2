@@ -7,32 +7,23 @@ public class PlayerMovement : MonoBehaviour {
     public float speed = 5;
     public int health = 100;
 
-    //public GameObject Espada;
-    //public GameObject Hacha;
+    private string armaEquipada = "Cuchillo";
+    private int damage = 5;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
-    protected Collider2D swordcol;
+    protected Collider2D weaponCollider;
     protected Animator myanimator;
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
     void Awake()
     {
-        /*
-        if (Espada.activeSelf)
-        {
-            swordcol = GameObject.FindWithTag("sword1").GetComponent<Collider2D>();
-        }
-        else if (Hacha.activeSelf)
-        {
-            swordcol = GameObject.FindWithTag("hacha").GetComponent<Collider2D>();
-        }
-        */
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         myanimator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
 
     void Start()
@@ -45,25 +36,19 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Move();
-        if (Input.GetKeyDown(KeyCode.L))
+        if (health > 0)
         {
-            myanimator.SetTrigger("Punch");
-        }
-            /*
+            Move();
+
             if (Input.GetKeyDown(KeyCode.L))
             {
-                if (Espada.activeSelf) // mira si esta activo la espada
-                {
-                    myanimator.SetTrigger("Attack");
-
-                }
-                else if (Hacha.activeSelf)
-                {
-                    myanimator.SetTrigger("HachaAttack");
-                }
+                //Attack();
+                StartCoroutine(Attack());
             }
-            */
+        } else
+        {
+            myanimator.SetTrigger("Dead");
+        }
     }
 
     protected void Move()
@@ -77,15 +62,6 @@ public class PlayerMovement : MonoBehaviour {
         if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1)) {
             transform.Rotate(0f, 180f, 0f);
         }
-
-        /*
-        // Otra versión de lo anterior
-        bool flipSprite = (spriteRenderer.flipX ? (move.x < 0.01f) : (move.x > 0.01f));
-        if (flipSprite)
-        {
-            spriteRenderer.flipX = !spriteRenderer.flipX;
-        }
-        */
 
         // Activa la animación de caminar
         if (Input.GetAxis("Horizontal") != 0)
@@ -120,17 +96,13 @@ public class PlayerMovement : MonoBehaviour {
         // Realiza el movimiento
         rb2d.position = rb2d.position + move;
     }
-    
-    void attack()
+
+    IEnumerator Attack()
     {
-        swordcol.enabled = true;
-    }
-    
-    void noattack()
-    {
-        swordcol.enabled = false;
-        myanimator.ResetTrigger("Attack");
-        myanimator.ResetTrigger("HachaAttack");
+        myanimator.SetTrigger("Punch");
+        weaponCollider.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        weaponCollider.enabled = false;
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
@@ -148,12 +120,33 @@ public class PlayerMovement : MonoBehaviour {
         if (health > 100) { health = 100; }
         GameManager.instance.ActualizarTxtSalud(health);
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
-            Destroy(collision.gameObject);
+            collision.GetComponent<Enemy>().ReducirSalud(damage);
         }
     }
+
+    public void EquiparArma(string arma)
+    {
+        armaEquipada = arma;
+
+        if (arma == "Espada")
+        {
+            damage = 10;
+        }
+
+        if (arma == "Hacha")
+        {
+            damage = 20;
+        }
+
+        if (arma == "Arco")
+        {
+            damage = 5;
+        }
+    }
+    
 }
