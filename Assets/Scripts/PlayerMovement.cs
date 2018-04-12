@@ -64,15 +64,27 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         // Activa la animación de caminar
-        if (Input.GetAxis("Horizontal") != 0)
+        if (move.x != 0)
         {
             animator.SetTrigger("WalkSide");
-        }
-        else
+        } else
         {
-            animator.SetTrigger("Idle");
+            if (move.y > 0)
+            {
+                animator.SetTrigger("WalkUp");
+            }
+
+            if (move.y < 0)
+            {
+                animator.SetTrigger("WalkDown");
+            }
+
+            if (move.y == 0)
+            {
+                animator.SetTrigger("Idle");
+            }
         }
-        
+
         // Comprueba obstáculos a los lados
         int countX = rb2d.Cast(new Vector2 (move.x, 0f), contactFilter, hitBuffer, distance);
         for (int i = 0; i < countX; i++)
