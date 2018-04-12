@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         Energy.Initialize();
         Health.Initialize();
-        myanimator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
