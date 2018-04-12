@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float speed = 5;
     public int health = 100;
@@ -19,10 +20,18 @@ public class PlayerMovement : MonoBehaviour {
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
+    public Stat Energy;
+
+    public Stat Health;
+
+    private int Carga;
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
+        Energy.Initialize();
+        Health.Initialize();
+        myanimator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
@@ -33,6 +42,28 @@ public class PlayerMovement : MonoBehaviour {
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Energy.CurrentVal -= 10;
+        }
+        if (Energy.CurrentVal < Energy.MaxVal)
+        {
+            Carga = Carga + 1;
+        }
+
+        if (Carga > 100)
+        {
+            Energy.CurrentVal += 10;
+            Carga = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) // para comprobar que baja la vida, Omar tienes que meter aqui el el hacerte daño por ser golpeado
+        {
+            Health.CurrentVal -= 10;
+        }
     }
 
     private void FixedUpdate()
@@ -45,7 +76,8 @@ public class PlayerMovement : MonoBehaviour {
             {
                 StartCoroutine(Attack());
             }
-        } else
+        }
+        else
         {
             animator.SetTrigger("Dead");
         }
@@ -59,7 +91,8 @@ public class PlayerMovement : MonoBehaviour {
         float distance = move.magnitude;
 
         // Da la vuelta al sprite según la dirección
-        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1)) {
+        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1))
+        {
             transform.Rotate(0f, 180f, 0f);
         }
 
@@ -67,7 +100,8 @@ public class PlayerMovement : MonoBehaviour {
         if (move.x != 0)
         {
             animator.SetTrigger("WalkSide");
-        } else
+        }
+        else
         {
             if (move.y > 0)
             {
@@ -86,7 +120,7 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         // Comprueba obstáculos a los lados
-        int countX = rb2d.Cast(new Vector2 (move.x, 0f), contactFilter, hitBuffer, distance);
+        int countX = rb2d.Cast(new Vector2(move.x, 0f), contactFilter, hitBuffer, distance);
         for (int i = 0; i < countX; i++)
         {
             if (hitBuffer[i].normal.x != 0)
@@ -104,7 +138,7 @@ public class PlayerMovement : MonoBehaviour {
                 move.y = 0f;
             }
         }
-        
+
         // Realiza el movimiento
         rb2d.position = rb2d.position + move;
     }
@@ -117,7 +151,6 @@ public class PlayerMovement : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
         weaponCollider.enabled = false;
     }
-
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
@@ -133,7 +166,7 @@ public class PlayerMovement : MonoBehaviour {
         if (health > 100) { health = 100; }
         GameManager.instance.ActualizarTxtSalud(health);
     }
-    
+
     // Comportamiento del arma al impactar a un enemigo
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -166,5 +199,4 @@ public class PlayerMovement : MonoBehaviour {
             damage = 5;
         }
     }
-    
 }

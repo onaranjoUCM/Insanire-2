@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SeleccionArma : MonoBehaviour {
-
     GameObject player;
 
     public static bool GameIsPaused;

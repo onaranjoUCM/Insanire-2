@@ -18,6 +18,7 @@ public class Pause : MonoBehaviour {
             else
             {
                 Pausa();
+                Time.timeScale = 0f;
             }
         }
 		
@@ -32,7 +33,7 @@ public class Pause : MonoBehaviour {
     void Pausa ()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+       
         GameIsPaused = true;
     }
     
