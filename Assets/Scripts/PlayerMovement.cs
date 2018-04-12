@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float speed = 5;
     public int health = 100;
 
-    //public GameObject Espada;
-    //public GameObject Hacha;
+    private string armaEquipada = "Punch";
+    private string animacionArma = "PlayerPunch";
+    private int damage = 5;
 
+    protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
-    protected Collider2D swordcol;
-    protected Animator myanimator;
+    protected Collider2D weaponCollider;
+    protected Animator animator;
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
@@ -24,21 +27,13 @@ public class PlayerMovement : MonoBehaviour {
     private int Carga;
     void Awake()
     {
-        
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
         Energy.Initialize();
         Health.Initialize();
-        /*
-        if (Espada.activeSelf)
-        {
-            swordcol = GameObject.FindWithTag("sword1").GetComponent<Collider2D>();
-        }
-        else if (Hacha.activeSelf)
-        {
-            swordcol = GameObject.FindWithTag("hacha").GetComponent<Collider2D>();
-        }
-        */
-        myanimator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
 
     void Start()
@@ -54,17 +49,17 @@ public class PlayerMovement : MonoBehaviour {
         {
             Energy.CurrentVal -= 10;
         }
-        if(Energy.CurrentVal < Energy.MaxVal)
+        if (Energy.CurrentVal < Energy.MaxVal)
         {
             Carga = Carga + 1;
         }
-       
+
         if (Carga > 100)
         {
             Energy.CurrentVal += 10;
             Carga = 0;
         }
-        
+
         if (Input.GetKeyDown(KeyCode.P)) // para comprobar que baja la vida, Omar tienes que meter aqui el el hacerte daño por ser golpeado
         {
             Health.CurrentVal -= 10;
@@ -73,22 +68,19 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Move();
-        /*
-        if (Input.GetKeyDown(KeyCode.L))
+        if (health > 0)
         {
-            if (Espada.activeSelf) // mira si esta activo la espada
-            {
-                myanimator.SetTrigger("Attack");
+            Move();
 
-            }
-            else if (Hacha.activeSelf)
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
             {
-                myanimator.SetTrigger("HachaAttack");
+                StartCoroutine(Attack());
             }
         }
-        */
-             
+        else
+        {
+            animator.SetTrigger("Dead");
+        }
     }
 
     protected void Move()
@@ -99,12 +91,36 @@ public class PlayerMovement : MonoBehaviour {
         float distance = move.magnitude;
 
         // Da la vuelta al sprite según la dirección
-        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == -1) || (move.x < 0 && Mathf.Round(transform.rotation.y) == 0)) {
+        if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1))
+        {
             transform.Rotate(0f, 180f, 0f);
         }
 
+        // Activa la animación de caminar
+        if (move.x != 0)
+        {
+            animator.SetTrigger("WalkSide");
+        }
+        else
+        {
+            if (move.y > 0)
+            {
+                animator.SetTrigger("WalkUp");
+            }
+
+            if (move.y < 0)
+            {
+                animator.SetTrigger("WalkDown");
+            }
+
+            if (move.y == 0)
+            {
+                animator.SetTrigger("Idle");
+            }
+        }
+
         // Comprueba obstáculos a los lados
-        int countX = rb2d.Cast(new Vector2 (move.x, 0f), contactFilter, hitBuffer, distance);
+        int countX = rb2d.Cast(new Vector2(move.x, 0f), contactFilter, hitBuffer, distance);
         for (int i = 0; i < countX; i++)
         {
             if (hitBuffer[i].normal.x != 0)
@@ -122,23 +138,19 @@ public class PlayerMovement : MonoBehaviour {
                 move.y = 0f;
             }
         }
-        
+
         // Realiza el movimiento
         rb2d.position = rb2d.position + move;
     }
-    /*
-    void attack()
+
+    // Ataque
+    IEnumerator Attack()
     {
-        swordcol.enabled = true;
+        animator.SetTrigger("Punch");
+        weaponCollider.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        weaponCollider.enabled = false;
     }
-    
-    void noattack()
-    {
-        swordcol.enabled = false;
-        myanimator.ResetTrigger("Attack");
-        myanimator.ResetTrigger("HachaAttack");
-    }
-    */
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
@@ -154,11 +166,37 @@ public class PlayerMovement : MonoBehaviour {
         if (health > 100) { health = 100; }
         GameManager.instance.ActualizarTxtSalud(health);
     }
+
+    // Comportamiento del arma al impactar a un enemigo
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
-            Destroy(collision.gameObject);
+            collision.GetComponent<Enemy>().ReducirSalud(damage);
+        }
+    }
+
+    // Cambia el arma equipada
+    public void EquiparArma(string arma)
+    {
+        armaEquipada = arma;
+
+        if (arma == "Espada")
+        {
+            animacionArma = "PlayerSword";
+            damage = 10;
+        }
+
+        if (arma == "Hacha")
+        {
+            animacionArma = "PlayerAxe";
+            damage = 20;
+        }
+
+        if (arma == "Arco")
+        {
+            animacionArma = "PlayerBow";
+            damage = 5;
         }
     }
 }

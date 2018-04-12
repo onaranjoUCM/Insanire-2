@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SeleccionArma : MonoBehaviour {
-    /*public static bool GameIsPaused;
-    public GameObject SeleccionArmaUI;
-    public GameObject Espada;
-    public GameObject Hacha;
-    //public GameObjet Arco;
+    GameObject player;
 
+    public static bool GameIsPaused;
+    public GameObject SeleccionArmaUI;
 
     // Use this for initialization
-    void Awake () {
+    void Awake ()
+    {
+        player = GameObject.FindWithTag("Player");
         GameIsPaused = true;
-        Espada.SetActive(false);
-        Hacha.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -29,13 +27,13 @@ public class SeleccionArma : MonoBehaviour {
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        Espada.SetActive(true);
-
+        player.GetComponent<PlayerMovement>().EquiparArma("Espada");
     }
+
     public void ElegirHacha()
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        Hacha.SetActive(true);
-    }*/
+        player.GetComponent<PlayerMovement>().EquiparArma("Hacha");
+    }
 }
