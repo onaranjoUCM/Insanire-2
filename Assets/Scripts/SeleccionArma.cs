@@ -27,13 +27,13 @@ public class SeleccionArma : MonoBehaviour {
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        player.GetComponent<PlayerMovement>().EquiparArma("Espada");
+        player.GetComponent<PlayerController>().EquiparArma("Espada");
     }
 
     public void ElegirHacha()
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        player.GetComponent<PlayerMovement>().EquiparArma("Hacha");
+        player.GetComponent<PlayerController>().EquiparArma("Hacha");
     }
 }

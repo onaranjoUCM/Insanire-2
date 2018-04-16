@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour {
         animator.SetTrigger("wolfAttack");
         if(!waiting)
         {
-            player.GetComponent<PlayerMovement>().ReducirSalud(damage);
+            player.GetComponent<PlayerController>().ReducirSalud(damage);
             waiting = true;
             yield return new WaitForSeconds(attackSpeed);
             waiting = false;

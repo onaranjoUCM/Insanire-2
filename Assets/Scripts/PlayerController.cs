@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 
     public float speed = 5;
@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -59,8 +60,8 @@ public class PlayerMovement : MonoBehaviour
             Energy.CurrentVal += 10;
             Carga = 0;
         }
-
-        if (Input.GetKeyDown(KeyCode.P)) // para comprobar que baja la vida, Omar tienes que meter aqui el el hacerte daño por ser golpeado
+        
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Health.CurrentVal -= 10;
         }
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (health > 0)
+        if (Health.CurrentVal > 0)
         {
             Move();
 
@@ -151,19 +152,22 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         weaponCollider.enabled = false;
     }
+
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
-        health -= reduccion;
-        if (health < 0) { health = 0; }
-        GameManager.instance.ActualizarTxtSalud(health);
+        Health.CurrentVal -= reduccion;
+        //health -= reduccion;
+        //if (health < 0) { health = 0; }
+        //GameManager.instance.ActualizarTxtSalud(health);
     }
 
     // Aumenta la salud en la cantidad pasada por parámetro (Hasta un máximo de 100)
     public void AumentarSalud(int aumento)
     {
-        health += aumento;
-        if (health > 100) { health = 100; }
+        Health.CurrentVal += aumento;
+        //health += aumento;
+        //if (health > 100) { health = 100; }
         GameManager.instance.ActualizarTxtSalud(health);
     }
 
