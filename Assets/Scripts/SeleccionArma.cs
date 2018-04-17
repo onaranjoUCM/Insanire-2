@@ -48,20 +48,20 @@ public class SeleccionArma : MonoBehaviour {
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        player.GetComponent<PlayerController>().EquiparArma("Espada");
+        player.GetComponent<PlayerController>().EquiparArma("Sword");
     }
 
     public void ElegirHacha()
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        player.GetComponent<PlayerController>().EquiparArma("Hacha");
+        player.GetComponent<PlayerController>().EquiparArma("Axe");
     }
 
     public void ElegirArco()
     {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
-        player.GetComponent<PlayerController>().EquiparArma("Arco");
+        player.GetComponent<PlayerController>().EquiparArma("Bow");
     }
 }

@@ -7,6 +7,6 @@ public class CharacterSpawner : MonoBehaviour {
     public GameObject[] Characters;
     
 	void Awake () {
-        Instantiate(Characters[SeleccionPersonaje.PlayerNum], gameObject.transform.position, gameObject.transform.rotation);
+        //Instantiate(Characters[SeleccionPersonaje.PlayerNum], gameObject.transform.position, gameObject.transform.rotation);
 	}
 }
