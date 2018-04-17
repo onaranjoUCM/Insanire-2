@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             Energy.CurrentVal -= 10;
         }
+
         if (Energy.CurrentVal < Energy.MaxVal)
         {
             Carga = Carga + 1;
@@ -60,11 +61,12 @@ public class PlayerController : MonoBehaviour
             Energy.CurrentVal += 10;
             Carga = 0;
         }
-        
+        /*
         if (Input.GetKeyDown(KeyCode.P))
         {
             Health.CurrentVal -= 10;
         }
+        */
     }
 
     private void FixedUpdate()
@@ -157,18 +159,12 @@ public class PlayerController : MonoBehaviour
     public void ReducirSalud(int reduccion)
     {
         Health.CurrentVal -= reduccion;
-        //health -= reduccion;
-        //if (health < 0) { health = 0; }
-        //GameManager.instance.ActualizarTxtSalud(health);
     }
 
     // Aumenta la salud en la cantidad pasada por parámetro (Hasta un máximo de 100)
     public void AumentarSalud(int aumento)
     {
         Health.CurrentVal += aumento;
-        //health += aumento;
-        //if (health > 100) { health = 100; }
-        GameManager.instance.ActualizarTxtSalud(health);
     }
 
     // Comportamiento del arma al impactar a un enemigo
@@ -191,9 +187,9 @@ public class PlayerController : MonoBehaviour
             damage = 10;
         }
 
-        if (arma == "Hacha")
+        if (arma == "Martillo")
         {
-            animacionArma = "PlayerAxe";
+            animacionArma = "PlayerHammer";
             damage = 20;
         }
 

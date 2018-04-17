@@ -22,9 +22,4 @@ public class GameManager : MonoBehaviour {
             Destroy(this.gameObject);
         }
     }
-
-    public void ActualizarTxtSalud(int salud)
-    {
-        txtSalud.text = "Salud: " + salud;
-    }
 }

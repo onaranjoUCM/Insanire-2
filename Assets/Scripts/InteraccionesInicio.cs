@@ -4,22 +4,12 @@ using UnityEngine;
 
 public class InteraccionesInicio : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     public void IniciarJuego()
     {
         Application.LoadLevel("Introduccion");
     }
     public void Salir()
     {
-        Debug.Log("Saliste jeje");
         Application.Quit();
     }
     public void NuevoPersonaje()
