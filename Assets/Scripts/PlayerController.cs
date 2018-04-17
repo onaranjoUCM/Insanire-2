@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().Play("Muerte");
             animator.SetTrigger("Dead");
         }
     }
