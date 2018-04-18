@@ -1,44 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteraccionesInicio : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     public void IniciarJuego()
     {
-        Application.LoadLevel("Introduccion");
+        //Application.LoadLevel("Introduccion");
+        SceneManager.LoadScene("Introduccion");
     }
     public void Salir()
     {
-        Debug.Log("Saliste jeje");
         Application.Quit();
     }
     public void NuevoPersonaje()
     {
-        Application.LoadLevel("SeleccionPersonaje");
+        //Application.LoadLevel("SeleccionPersonaje");
+        SceneManager.LoadScene("SeleccionPersonaje");
     }
     public void MenuInicio()
     {
         Time.timeScale = 1f;
-        Application.LoadLevel("MenuInicio");
+        //Application.LoadLevel("MenuInicio");
+        SceneManager.LoadScene("MenuInicio");
     }
     public void Intrucciones()
     {
-        Application.LoadLevel("Instrucciones");
+        //Application.LoadLevel("Instrucciones");
+        SceneManager.LoadScene("Instrucciones");
     }
     public void ReanudarJuego()
     {
-        Debug.Log("Reanudar progreso)pendiente de cambio)");
-        Application.LoadLevel("Introduccion"); // temporal
+        //Application.LoadLevel("Introduccion"); // temporal
+        SceneManager.LoadScene("Introduccion"); // temporal
     }
 
 }
