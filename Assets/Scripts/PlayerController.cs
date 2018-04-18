@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 5;
     public int health = 100;
+    public RuntimeAnimatorController[] playerAnimators;
 
-    private string armaEquipada = "Punch";
-    private string animacionArma = "PlayerPunch";
-    private int damage = 5;
+    private string armaEquipada;
+    private string animacionArma;
+    private string character;
+    private int damage;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
@@ -27,17 +29,35 @@ public class PlayerController : MonoBehaviour
     private int Carga;
     void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        animator = GetComponentInChildren<Animator>();
+        // Inicializa las estadisticas
         Energy.Initialize();
         Health.Initialize();
+
+        // Inicializa componentes
         animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         weaponCollider = GameObject.FindWithTag("Weapon").GetComponent<Collider2D>();
     }
 
     void Start()
     {
+        // Inicializa al personaje desarmado
+        character = GameManager.instance.GetCharacter();
+        armaEquipada = "Punch";
+        damage = 5;
+        animacionArma = character + armaEquipada;
+
+        if (character == "Delric")
+        {
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[0];
+        }
+
+        if (character == "Clarisse")
+        {
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[4];
+        }
+
         // Permite que solo se choque con objetos de la misma capa
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
@@ -50,6 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             Energy.CurrentVal -= 10;
         }
+
         if (Energy.CurrentVal < Energy.MaxVal)
         {
             Carga = Carga + 1;
@@ -147,7 +168,7 @@ public class PlayerController : MonoBehaviour
     // Ataque
     IEnumerator Attack()
     {
-        animator.SetTrigger("Punch");
+        animator.SetTrigger("Attack");
         weaponCollider.enabled = true;
         yield return new WaitForSeconds(0.1f);
         weaponCollider.enabled = false;
@@ -157,18 +178,12 @@ public class PlayerController : MonoBehaviour
     public void ReducirSalud(int reduccion)
     {
         Health.CurrentVal -= reduccion;
-        //health -= reduccion;
-        //if (health < 0) { health = 0; }
-        //GameManager.instance.ActualizarTxtSalud(health);
     }
 
     // Aumenta la salud en la cantidad pasada por parámetro (Hasta un máximo de 100)
     public void AumentarSalud(int aumento)
     {
         Health.CurrentVal += aumento;
-        //health += aumento;
-        //if (health > 100) { health = 100; }
-        GameManager.instance.ActualizarTxtSalud(health);
     }
 
     // Comportamiento del arma al impactar a un enemigo
@@ -184,23 +199,24 @@ public class PlayerController : MonoBehaviour
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
+        animacionArma = character + armaEquipada;
 
-        if (arma == "Espada")
+        if (arma == "Sword")
         {
-            animacionArma = "PlayerSword";
             damage = 10;
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[1];
         }
 
-        if (arma == "Hacha")
+        if (arma == "Axe")
         {
-            animacionArma = "PlayerAxe";
             damage = 20;
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[2];
         }
 
-        if (arma == "Arco")
+        if (arma == "Bow")
         {
-            animacionArma = "PlayerBow";
             damage = 5;
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[3];
         }
     }
 }

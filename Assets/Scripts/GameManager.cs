@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-    public GameObject player;
-    public Text txtSalud;
+
+    private string character = "Clarisse";
+    private GameObject player;
 
     void Awake()
     {
-       
         if (instance == null)
         {
             instance = this;
@@ -21,10 +21,17 @@ public class GameManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+
+        player = GameObject.FindWithTag("Player");
     }
 
-    public void ActualizarTxtSalud(int salud)
+    public void SetCharacter(string stringCharacter)
     {
-        txtSalud.text = "Salud: " + salud;
+        character = stringCharacter;
+    }
+
+    public string GetCharacter()
+    {
+        return character;
     }
 }
