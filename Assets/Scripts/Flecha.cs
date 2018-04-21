@@ -30,4 +30,9 @@ public class Flecha : MonoBehaviour {
         }
         Destroy(gameObject);
     }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }

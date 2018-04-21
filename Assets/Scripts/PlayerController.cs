@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public GameObject flecha;
 
     private string armaEquipada;
-    private string animacionArma;
     private string character;
     private int damage;
 
@@ -45,7 +44,6 @@ public class PlayerController : MonoBehaviour
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
         damage = 5;
-        animacionArma = character + armaEquipada;
 
         if (character == "Delric")
         {
@@ -92,8 +90,7 @@ public class PlayerController : MonoBehaviour
         if (Health.CurrentVal > 0)
         {
             Move();
-
-            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 StartCoroutine(Attack());
             }
@@ -218,7 +215,6 @@ public class PlayerController : MonoBehaviour
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
-        animacionArma = character + armaEquipada;
 
         if (arma == "Sword")
         {
