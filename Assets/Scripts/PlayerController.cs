@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    static bool HabilidadActivada = false;
 
     public float speed = 5;
     public int health = 100;
@@ -22,11 +23,16 @@ public class PlayerController : MonoBehaviour
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
-    public Stat Energy;
+    //Delric Hability
+    private BoxCollider2D DelricSp;
+    public GameObject HitboxSp;
+    private int Descarga = 0;
 
+    public Stat Energy;
     public Stat Health;
 
     private int Carga;
+    
     void Awake()
     {
         // Inicializa las estadisticas
@@ -34,6 +40,7 @@ public class PlayerController : MonoBehaviour
         Health.Initialize();
 
         // Inicializa componentes
+        DelricSp = GetComponentInChildren<BoxCollider2D>();
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -66,12 +73,43 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (character == "Delric")
         {
-            Energy.CurrentVal -= 10;
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+
+                if (HabilidadActivada == false && Energy.currentVal>0)
+                {
+                    animator.SetTrigger("K");
+                    HabilidadActivada = true;
+                }
+                else
+                {
+                    HabilidadActivada = false;
+                    HitboxSp.SetActive(false);
+                }
+                        
+            }
+            if (HabilidadActivada == true)
+            {
+                  HitboxSp.SetActive(true);
+                  Descarga = Descarga + 1;
+                  // introducir daño
+                 if (Descarga > 15)
+                 {
+                    Energy.currentVal -= 3;
+                    Descarga = 0;
+                 }
+                 if (Energy.currentVal < 1)
+                 {
+                    HabilidadActivada = false;
+                    HitboxSp.SetActive(false);
+                 }
+            }
+
         }
 
-        if (Energy.CurrentVal < Energy.MaxVal)
+        if (Energy.CurrentVal < Energy.MaxVal) 
         {
             Carga = Carga + 1;
         }
@@ -85,7 +123,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Health.CurrentVal -= 10;
-        }
+        }        
     }
 
     private void FixedUpdate()
