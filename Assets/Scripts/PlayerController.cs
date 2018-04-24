@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     static bool HabilidadActivada = false;
+    static bool MuerteJugador = false;
 
     public float speed = 5;
     public int health = 100;
@@ -82,11 +83,13 @@ public class PlayerController : MonoBehaviour
                 {
                     animator.SetTrigger("K");
                     HabilidadActivada = true;
+                    FindObjectOfType<AudioManager>().Play("DelricSp");
                 }
                 else
                 {
                     HabilidadActivada = false;
                     HitboxSp.SetActive(false);
+                    FindObjectOfType<AudioManager>().Stop("DelricSp");
                 }
                         
             }
@@ -104,7 +107,8 @@ public class PlayerController : MonoBehaviour
                  {
                     HabilidadActivada = false;
                     HitboxSp.SetActive(false);
-                 }
+                    FindObjectOfType<AudioManager>().Stop("DelricSp");
+                }
             }
 
         }
@@ -137,9 +141,11 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Attack());
             }
         }
-        else
+        else if(MuerteJugador == false)
         {
             animator.SetTrigger("Dead");
+            FindObjectOfType<AudioManager>().Play("Muerte");
+            MuerteJugador = true;
         }
     }
 
