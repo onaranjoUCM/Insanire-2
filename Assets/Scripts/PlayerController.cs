@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 StartCoroutine(Attack());
             }
@@ -192,6 +192,7 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Enemy")
         {
             collision.GetComponent<Enemy>().ReducirSalud(damage);
+            collision.GetComponent<Enemy>().Knockback(1f);
         }
     }
 
