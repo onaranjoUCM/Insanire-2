@@ -5,11 +5,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public float speed = 3f;
-    public float attackSpeed = 1;
     public int damage = 10;
     public int health = 100;
+    public GameObject manchaSangre;
 
-    float distanceToPlayer = 1f;
+    float distanceToPlayer = 1.2f;
     float signoVector;
     bool waiting = false;
 
@@ -38,10 +38,11 @@ public class Enemy : MonoBehaviour {
     void Update()
     {
         if (GetComponent<SpriteRenderer>().isVisible) {
-            if(health > 0) { 
+            if(health > 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("wolfHit")) { 
                 Move();
             }
-            else
+
+            if (health == 0)
             {
                 animator.SetTrigger("wolfDead");
             }
@@ -103,19 +104,16 @@ public class Enemy : MonoBehaviour {
         // Si está pegado al jugador le ataca
         else
         {
-            StartCoroutine(Attack());
+            Attack();
         }
     }
-
-    IEnumerator Attack()
+    
+    void Attack()
     {
-        animator.SetTrigger("wolfAttack");
-        if(!waiting)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("wolfRun"))
         {
+            animator.SetTrigger("wolfAttack");
             player.GetComponent<PlayerController>().ReducirSalud(damage);
-            waiting = true;
-            yield return new WaitForSeconds(attackSpeed);
-            waiting = false;
         }
     }
 
@@ -124,5 +122,41 @@ public class Enemy : MonoBehaviour {
     {
         health -= reduccion;
         if (health < 0) { health = 0; }
+    }
+
+    public void Knockback(float distancia)
+    {
+        if (health > 0)
+        {
+            animator.SetTrigger("wolfHit");
+            Vector3 posicion = transform.position;
+            Instantiate(manchaSangre, posicion, Quaternion.identity);
+
+            // Determina hacia donde le están empujando
+            if (Mathf.Round(transform.rotation.y) == 0)
+            {
+                posicion.x += distancia;
+            }
+
+            if (Mathf.Round(transform.rotation.y) == -1)
+            {
+                posicion.x -= distancia;
+            }
+
+            // Comprueba obstáculos
+
+            if (transform.position.x > posicion.x) { signoVector = -1; }
+            else { signoVector = 1; }
+
+            int countX = rb2d.Cast(new Vector2(signoVector, 0f), contactFilter, hitBuffer, distancia);
+            for (int i = 0; i < countX; i++)
+            {
+                if (hitBuffer[i].normal.x != 0)
+                {
+                    posicion.x = transform.position.x;
+                }
+            }
+            transform.position = posicion;
+        }
     }
 }
