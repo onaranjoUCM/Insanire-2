@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour {
 
         if (arma == "Bow")
         {
-            Debug.Log(marco.transform.GetChild(3).childCount);
             marco.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().sprite = weaponsPictures[3];
         }
     }
