@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
     //Delric Hability
-    private BoxCollider2D DelricSp;
     public GameObject HitboxSp;
     private int Descarga = 0;
 
@@ -41,7 +40,6 @@ public class PlayerController : MonoBehaviour
         Health.Initialize();
 
         // Inicializa componentes
-        DelricSp = GetComponentInChildren<BoxCollider2D>();
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -145,6 +143,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("Dead");
             FindObjectOfType<AudioManager>().Play("Muerte");
+            HabilidadActivada = false;
             MuerteJugador = true;
         }
     }
@@ -236,6 +235,10 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Enemy")
         {
             collision.GetComponent<Enemy>().ReducirSalud(damage);
+        }
+        if(collision.gameObject == HitboxSp)
+        {
+            Physics2D.IgnoreLayerCollision(0, 10, true);
         }
     }
 
