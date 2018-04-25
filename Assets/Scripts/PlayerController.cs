@@ -144,6 +144,8 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Dead");
             FindObjectOfType<AudioManager>().Play("Muerte");
             HabilidadActivada = false;
+            HitboxSp.SetActive(false);
+            FindObjectOfType<AudioManager>().Stop("DelricSp");
             MuerteJugador = true;
         }
     }
