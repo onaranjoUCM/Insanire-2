@@ -38,13 +38,13 @@ public class Enemy : MonoBehaviour {
     void FixedUpdate()
     {
         if (GetComponent<SpriteRenderer>().isVisible) {
-            if(health > 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("wolfHit")) { 
+            if(health > 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) { 
                 Move();
             }
 
             if (health == 0)
             {
-                animator.SetTrigger("wolfDead");
+                animator.SetTrigger("Dead");
             }
         }
     }
@@ -92,10 +92,10 @@ public class Enemy : MonoBehaviour {
             // Elige la animacion de movimiento o quieto
             if (Mathf.Approximately(move.magnitude, transform.position.magnitude))
             {
-                animator.SetTrigger("wolfIdle");
+                animator.SetTrigger("Idle");
             } else
             {
-                animator.SetTrigger("wolfRun");
+                animator.SetTrigger("Run");
             }
 
             // Realiza el movimiento
@@ -110,9 +110,9 @@ public class Enemy : MonoBehaviour {
     
     void Attack()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("wolfRun"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
-            animator.SetTrigger("wolfAttack");
+            animator.SetTrigger("Attack");
             player.GetComponent<PlayerController>().ReducirSalud(damage);
         }
     }
@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour {
     {
         if (health > 0)
         {
-            animator.SetTrigger("wolfHit");
+            animator.SetTrigger("Hit");
             Vector3 posicion = transform.position;
             Instantiate(manchaSangre, posicion, Quaternion.identity);
 

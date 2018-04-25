@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
         // Inicializa al personaje desarmado
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
+        GameManager.instance.CambiarImagenArma(armaEquipada);
         damage = 5;
 
         if (character == "Delric")
@@ -205,8 +206,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            collision.GetComponent<Enemy>().ReducirSalud(damage);
             collision.GetComponent<Enemy>().Knockback(1f);
+            collision.GetComponent<Enemy>().ReducirSalud(damage);
         }
     }
 

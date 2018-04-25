@@ -55,19 +55,27 @@ public class GameManager : MonoBehaviour {
 
     public void CambiarImagenArma(string arma)
     {
-        if (arma == "Espada")
+        marco = GameObject.FindWithTag("Marco");
+
+        if (arma == "Punch")
         {
             marco.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().sprite = weaponsPictures[0];
         }
 
-        if (arma == "Hacha")
+        if (arma == "Sword")
         {
             marco.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().sprite = weaponsPictures[1];
         }
 
-        if (arma == "Arco")
+        if (arma == "Axe")
         {
             marco.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().sprite = weaponsPictures[2];
+        }
+
+        if (arma == "Bow")
+        {
+            Debug.Log(marco.transform.GetChild(3).childCount);
+            marco.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().sprite = weaponsPictures[3];
         }
     }
 }

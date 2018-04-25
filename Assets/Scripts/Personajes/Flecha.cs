@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Flecha : MonoBehaviour {
 
-    public float speed = 5;
+    public float speed = 10;
 
     private int arrowDamage;
 
@@ -26,6 +26,7 @@ public class Flecha : MonoBehaviour {
     {
         if (collision.tag == "Enemy")
         {
+            collision.GetComponent<Enemy>().Knockback(0.1f);
             collision.GetComponent<Enemy>().ReducirSalud(arrowDamage);
         }
         Destroy(gameObject);
