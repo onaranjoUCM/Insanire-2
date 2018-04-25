@@ -49,7 +49,6 @@ public class SeleccionArma : MonoBehaviour {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Sword");
-        GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Espada");
     }
 
     public void ElegirHacha()
@@ -57,7 +56,6 @@ public class SeleccionArma : MonoBehaviour {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Axe");
-        GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Hacha");
     }
 
     public void ElegirArco()
@@ -65,6 +63,5 @@ public class SeleccionArma : MonoBehaviour {
         SeleccionArmaUI.SetActive(false);
         GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Bow");
-        GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Arco");
     }
 }
