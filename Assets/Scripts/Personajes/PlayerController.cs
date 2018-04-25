@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private string armaEquipada;
     private string character;
     private int damage;
+    private int Carga;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
     public Stat Energy;
     public Stat Health;
 
-    private int Carga;
     void Awake()
     {
         // Inicializa las estadisticas
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -83,10 +83,7 @@ public class PlayerController : MonoBehaviour
         {
             Health.CurrentVal -= 10;
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (Health.CurrentVal > 0)
         {
             Move();

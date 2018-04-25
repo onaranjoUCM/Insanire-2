@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour {
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GetComponent<SpriteRenderer>().isVisible) {
             if(health > 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("wolfHit")) { 

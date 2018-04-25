@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pause : MonoBehaviour {
-    public static bool GameIsPaused = false;
 
+    public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
 	
-	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -18,11 +17,10 @@ public class Pause : MonoBehaviour {
             else
             {
                 Pausa();
-                Time.timeScale = 0f;
             }
         }
-		
 	}
+
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
@@ -30,10 +28,11 @@ public class Pause : MonoBehaviour {
         GameIsPaused = false;
 
     }
+
     void Pausa ()
     {
         pauseMenuUI.SetActive(true);
-       
+        Time.timeScale = 0f;
         GameIsPaused = true;
     }
     
