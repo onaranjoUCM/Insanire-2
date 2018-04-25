@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     public float speed = 5;
     public int health = 100;
     public RuntimeAnimatorController[] playerAnimators;
+    public GameObject flecha;
 
     private string armaEquipada;
-    private string animacionArma;
     private string character;
     private int damage;
 
@@ -23,7 +22,6 @@ public class PlayerController : MonoBehaviour
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
     public Stat Energy;
-
     public Stat Health;
 
     private int Carga;
@@ -46,7 +44,6 @@ public class PlayerController : MonoBehaviour
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
         damage = 5;
-        animacionArma = character + armaEquipada;
 
         if (character == "Delric")
         {
@@ -93,8 +90,7 @@ public class PlayerController : MonoBehaviour
         if (Health.CurrentVal > 0)
         {
             Move();
-
-            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 StartCoroutine(Attack());
             }
@@ -169,9 +165,29 @@ public class PlayerController : MonoBehaviour
     IEnumerator Attack()
     {
         animator.SetTrigger("Attack");
-        weaponCollider.enabled = true;
-        yield return new WaitForSeconds(0.1f);
-        weaponCollider.enabled = false;
+        if (armaEquipada == "Bow")
+        {
+            Vector3 posicionFlecha = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+
+            if (Mathf.Round(transform.rotation.y) == 0)
+            {
+                posicionFlecha.x = posicionFlecha.x - 1;
+                Instantiate(flecha, posicionFlecha, Quaternion.identity);
+            }
+
+            if (Mathf.Round(transform.rotation.y) == -1)
+            {
+                posicionFlecha.x = posicionFlecha.x + 1;
+                flecha.transform.Rotate(0f, 180f, 0f);
+                Instantiate(flecha, posicionFlecha, Quaternion.Euler(0,180,0));
+            }
+
+        } else
+        {
+            weaponCollider.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            weaponCollider.enabled = false;
+        }
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
@@ -199,7 +215,6 @@ public class PlayerController : MonoBehaviour
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
-        animacionArma = character + armaEquipada;
 
         if (arma == "Sword")
         {
@@ -218,5 +233,10 @@ public class PlayerController : MonoBehaviour
             damage = 5;
             GetComponent<Animator>().runtimeAnimatorController = playerAnimators[3];
         }
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 }
