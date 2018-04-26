@@ -19,6 +19,10 @@ public class Pause : MonoBehaviour {
                 Pausa();
             }
         }
+        if (GameIsPaused)
+        {
+            Time.timeScale = 0f;
+        }
 	}
 
     public void Resume()
@@ -31,8 +35,7 @@ public class Pause : MonoBehaviour {
 
     void Pausa ()
     {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+        pauseMenuUI.SetActive(true);        
         GameIsPaused = true;
     }
     

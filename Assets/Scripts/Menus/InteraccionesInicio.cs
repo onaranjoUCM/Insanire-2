@@ -8,6 +8,7 @@ public class InteraccionesInicio : MonoBehaviour {
     public void IniciarJuego()
     {
         SceneManager.LoadScene("Introduccion");
+        FindObjectOfType<AudioManager>().Play("ThemeIntro");
     }
 
     public void Salir()
@@ -18,12 +19,14 @@ public class InteraccionesInicio : MonoBehaviour {
     public void NuevoPersonaje()
     {
         SceneManager.LoadScene("SeleccionPersonaje");
+        
     }
 
     public void MenuInicio()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MenuInicio");
+        FindObjectOfType<AudioManager>().Play("MenuMusic");
     }
 
     public void Intrucciones()

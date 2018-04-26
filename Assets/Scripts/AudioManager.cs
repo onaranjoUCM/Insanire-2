@@ -1,12 +1,16 @@
 ﻿using UnityEngine.Audio;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour {
     public Sound[] sounds;
     public static AudioManager instance;
+    string sceneName; // coge el nombre de la escena
 	// Use this for initialization
 	void Awake () {
+        Scene currentScene = SceneManager.GetActiveScene(); // coger la escena del momento
+        sceneName = currentScene.name;
 
         if (instance == null)
         {
@@ -30,8 +34,10 @@ public class AudioManager : MonoBehaviour {
 	}
     private void Start()
     {
-        Play("Theme");
+        // Play("Theme");
+      
     }
+
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
