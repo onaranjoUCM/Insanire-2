@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    static bool HabilidadActivada = false;
-    static bool MuerteJugador = false;
-
     public float speed = 5;
     public int health = 100;
     public RuntimeAnimatorController[] playerAnimators;
+    public GameObject flecha;
 
     private string armaEquipada;
-    private string animacionArma;
     private string character;
     private int damage;
+    private int Carga;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
@@ -24,15 +22,9 @@ public class PlayerController : MonoBehaviour
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
-    //Delric Hability
-    public GameObject HitboxSp;
-    private int Descarga = 0;
-
     public Stat Energy;
     public Stat Health;
 
-    private int Carga;
-    
     void Awake()
     {
         // Inicializa las estadisticas
@@ -51,8 +43,8 @@ public class PlayerController : MonoBehaviour
         // Inicializa al personaje desarmado
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
+        GameManager.instance.CambiarImagenArma(armaEquipada);
         damage = 5;
-        animacionArma = character + armaEquipada;
 
         if (character == "Delric")
         {
@@ -70,48 +62,14 @@ public class PlayerController : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (character == "Delric")
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-
-                if (HabilidadActivada == false && Energy.currentVal>0)
-                {
-                    animator.SetTrigger("K");
-                    HabilidadActivada = true;
-                    FindObjectOfType<AudioManager>().Play("DelricSp");
-                }
-                else
-                {
-                    HabilidadActivada = false;
-                    HitboxSp.SetActive(false);
-                    FindObjectOfType<AudioManager>().Stop("DelricSp");
-                }
-                        
-            }
-            if (HabilidadActivada == true)
-            {
-                  HitboxSp.SetActive(true);
-                  Descarga = Descarga + 1;
-                  // introducir daño
-                 if (Descarga > 15)
-                 {
-                    Energy.currentVal -= 3;
-                    Descarga = 0;
-                 }
-                 if (Energy.currentVal < 1)
-                 {
-                    HabilidadActivada = false;
-                    HitboxSp.SetActive(false);
-                    FindObjectOfType<AudioManager>().Stop("DelricSp");
-                }
-            }
-
+            Energy.CurrentVal -= 10;
         }
 
-        if (Energy.CurrentVal < Energy.MaxVal) 
+        if (Energy.CurrentVal < Energy.MaxVal)
         {
             Carga = Carga + 1;
         }
@@ -125,28 +83,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Health.CurrentVal -= 10;
-        }        
-    }
+        }
 
-    private void FixedUpdate()
-    {
         if (Health.CurrentVal > 0)
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName(animacionArma))
+            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 StartCoroutine(Attack());
             }
         }
-        else if(MuerteJugador == false)
+        else
         {
             animator.SetTrigger("Dead");
-            FindObjectOfType<AudioManager>().Play("Muerte");
-            HabilidadActivada = false;
-            HitboxSp.SetActive(false);
-            FindObjectOfType<AudioManager>().Stop("DelricSp");
-            MuerteJugador = true;
         }
     }
 
@@ -214,9 +164,29 @@ public class PlayerController : MonoBehaviour
     IEnumerator Attack()
     {
         animator.SetTrigger("Attack");
-        weaponCollider.enabled = true;
-        yield return new WaitForSeconds(0.1f);
-        weaponCollider.enabled = false;
+        if (armaEquipada == "Bow")
+        {
+            Vector3 posicionFlecha = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+
+            if (Mathf.Round(transform.rotation.y) == 0)
+            {
+                posicionFlecha.x = posicionFlecha.x - 1;
+                Instantiate(flecha, posicionFlecha, Quaternion.identity);
+            }
+
+            if (Mathf.Round(transform.rotation.y) == -1)
+            {
+                posicionFlecha.x = posicionFlecha.x + 1;
+                flecha.transform.Rotate(0f, 180f, 0f);
+                Instantiate(flecha, posicionFlecha, Quaternion.Euler(0,180,0));
+            }
+
+        } else
+        {
+            weaponCollider.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            weaponCollider.enabled = false;
+        }
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
@@ -236,11 +206,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
+            collision.GetComponent<Enemy>().Knockback(1f);
             collision.GetComponent<Enemy>().ReducirSalud(damage);
-        }
-        if(collision.gameObject == HitboxSp)
-        {
-            Physics2D.IgnoreLayerCollision(0, 10, true);
         }
     }
 
@@ -248,7 +215,6 @@ public class PlayerController : MonoBehaviour
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
-        animacionArma = character + armaEquipada;
 
         if (arma == "Sword")
         {
@@ -267,5 +233,10 @@ public class PlayerController : MonoBehaviour
             damage = 5;
             GetComponent<Animator>().runtimeAnimatorController = playerAnimators[3];
         }
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 }
