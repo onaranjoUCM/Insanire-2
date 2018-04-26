@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour
     public Stat Energy;
     public Stat Health;
 
-    private int Carga;
-
     void Awake()
     {
         // Inicializa las estadisticas
