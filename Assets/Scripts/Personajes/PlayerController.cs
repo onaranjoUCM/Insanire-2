@@ -265,24 +265,30 @@ public class PlayerController : MonoBehaviour
     public void EquiparArma(string arma)
     {
         armaEquipada = arma;
+        int animatorSeleccionado = 0;
 
         if (arma == "Sword")
         {
             damage = 10;
-            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[1];
+            if (character == "Delric") { animatorSeleccionado = 1; }
+            if (character == "Clarisse") { animatorSeleccionado = 5; }
         }
 
         if (arma == "Axe")
         {
             damage = 20;
-            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[2];
+            if (character == "Delric") { animatorSeleccionado = 2; }
+            if (character == "Clarisse") { animatorSeleccionado = 6; }
         }
 
         if (arma == "Bow")
         {
             damage = 5;
-            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[3];
+            if (character == "Delric") { animatorSeleccionado = 3; }
+            if (character == "Clarisse") { animatorSeleccionado = 7; }
         }
+
+        GetComponent<Animator>().runtimeAnimatorController = playerAnimators[animatorSeleccionado];
     }
 
     public int GetDamage()
