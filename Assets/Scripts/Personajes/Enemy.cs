@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour {
     public float distanceToPlayer = 1.2f;
 
     float signoVector;
-    bool waiting = false;
 
     Transform playerTransform;
     Rigidbody2D rb2d;
