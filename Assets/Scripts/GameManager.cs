@@ -29,7 +29,12 @@ public class GameManager : MonoBehaviour {
 
     public void CargarNivel(string nivel)
     {
+        if (nivel == "Nivel 1")
+        {
+            FindObjectOfType<AudioManager>().Play("ThemeNivel1");
+        }
         SceneManager.LoadScene(nivel);
+        
     }
 
     public string GetCharacter()
