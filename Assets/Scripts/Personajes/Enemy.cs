@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour {
     public int damage = 10;
     public int health = 100;
     public GameObject manchaSangre;
+    public float distanceToPlayer = 1.2f;
 
-    float distanceToPlayer = 1.2f;
     float signoVector;
     bool waiting = false;
 
