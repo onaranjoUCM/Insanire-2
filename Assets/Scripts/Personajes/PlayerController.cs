@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
         GameManager.instance.CambiarImagenArma(armaEquipada);
-        damage = 5;
+        damage = 2;
 
         if (character == "Delric")
         {
