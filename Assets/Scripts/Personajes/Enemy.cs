@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour {
             if (health == 0)
             {
                 animator.SetTrigger("Dead");
+                GetComponent<BoxCollider2D>().enabled = false;
             }
         }
     }

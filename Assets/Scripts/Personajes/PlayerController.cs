@@ -125,7 +125,8 @@ public class PlayerController : MonoBehaviour
         {
             Health.CurrentVal -= 10;
 
-        }        
+        }
+
         if (Health.CurrentVal > 0)
         {
             Move();
@@ -143,6 +144,7 @@ public class PlayerController : MonoBehaviour
             HitboxSp.SetActive(false);
             FindObjectOfType<AudioManager>().Stop("DelricSp");
             MuerteJugador = true;
+            GameManager.instance.RestartLevel();
         }
     }
 
