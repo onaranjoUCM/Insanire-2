@@ -59,6 +59,7 @@ public class FinalBoss : MonoBehaviour {
         GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<Enemy>().speed = 5;
         GetComponent<Enemy>().damage = GetComponent<Enemy>().damage * 2;
+        transform.localScale = new Vector3(2, 2, 1);
     }
 
     void CheckHealth()
