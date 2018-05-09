@@ -5,14 +5,30 @@ using UnityEngine;
 public class FinalBoss : MonoBehaviour {
 
     public GameObject fantasma;
+    public RuntimeAnimatorController[] playerAnimators;
 
     int currentHealth;
     int maxHealth;
     int fase = 1;
+    Animator animator;
 
-	void Start () {
+    private void Awake()
+    {
+        if (GameManager.instance.GetCharacter() == "Delric")
+        {
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[0];
+        }
+
+        if (GameManager.instance.GetCharacter() == "Clarisse")
+        {
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[0];
+        }
+    }
+
+    void Start () {
         maxHealth = gameObject.GetComponent<Enemy>().health;
         InvokeRepeating("CheckHealth", 0, 1);
+        animator = GetComponentInChildren<Animator>();
     }
 	
 	void Update () {
@@ -24,6 +40,7 @@ public class FinalBoss : MonoBehaviour {
     {
         fase = 2;
         transform.position = new Vector3(0, -1, 0);
+        animator.SetTrigger("Fase2");
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<Enemy>().speed = 0;
 
@@ -38,6 +55,7 @@ public class FinalBoss : MonoBehaviour {
     void Fase3()
     {
         fase = 3;
+        animator.SetTrigger("Fase3");
         GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<Enemy>().speed = 5;
         GetComponent<Enemy>().damage = GetComponent<Enemy>().damage * 2;
