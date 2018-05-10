@@ -38,5 +38,13 @@ public class Pause : MonoBehaviour {
         pauseMenuUI.SetActive(true);        
         GameIsPaused = true;
     }
-    
+    public void MenuInicio()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+        Application.LoadLevel("MenuInicio");
+        FindObjectOfType<AudioManager>().Play("MenuMusic");
+    }
+
 }
