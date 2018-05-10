@@ -1,6 +1,8 @@
 ﻿using UnityEngine.Audio;
 using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour {
@@ -9,8 +11,6 @@ public class AudioManager : MonoBehaviour {
     string sceneName; // coge el nombre de la escena
 	// Use this for initialization
 	void Awake () {
-        Scene currentScene = SceneManager.GetActiveScene(); // coger la escena del momento
-        sceneName = currentScene.name;
 
         if (instance == null)
         {
@@ -32,10 +32,39 @@ public class AudioManager : MonoBehaviour {
             s.source.loop = s.loop;
         }
 	}
+    public delegate void Change();
+    public static event Change TimeChanged;
+
     private void Start()
     {
         // Play("Theme");
-      
+        SceneManager.activeSceneChanged += ChangedActiveScene;    
+    }
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        string currentName = current.name;
+
+        if (currentName == null)
+        {
+            // CurrentScene has been removed
+            currentName = "Replaced";
+        } if (currentName == "MenuInicio")
+        {
+            Play("ThemeIntro");
+        }
+        if(next.name == "Nivel 1")
+        {
+            Play("ThemeNivel1");
+        }
+        if (next.name == "MenuInicio")
+        {
+            Play("MenuMusic");
+        }
+        if (next.name == "Introduccion")
+        {
+            Play("ThemeIntro");
+        }
+        Debug.Log("Scenes: " + currentName + ", " + next.name);
     }
 
     public void Play(string name)

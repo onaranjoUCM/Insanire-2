@@ -11,22 +11,6 @@ public class SoundCheckBG : MonoBehaviour {
         Scene currentScene = SceneManager.GetActiveScene(); // coger la escena del momento
         sceneName = currentScene.name;
     }
-    private void Start()
-    {
-        if (sceneName == "MenuInicio")
-        {
-            FindObjectOfType<AudioManager>().Play("MenuMusic");
-        }
-          if (sceneName == "Introduccion")
-          {
-              FindObjectOfType<AudioManager>().Play("ThemeIntro");
-          }
-          if(sceneName == "Nivel 1")
-          {
-              FindObjectOfType<AudioManager>().Play("ThemeNivel1");
-          }
-
-    }
 
     // Update is called once per frame
     void Update()
