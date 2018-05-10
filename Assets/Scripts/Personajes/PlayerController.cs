@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     public GameObject HitboxSp;
     private int Descarga = 0;
 
+    //Clarisse Hability
+    public GameObject EnergyBall;
+
     public Stat Energy;
     public Stat Health;
 
@@ -71,6 +74,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(character == "Clarisse")
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+               if (Energy.currentVal > 0)
+                {
+
+                }
+              
+            }
+        }
         if (character == "Delric")
         {
             if (Input.GetKeyDown(KeyCode.K))
