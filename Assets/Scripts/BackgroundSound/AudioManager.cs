@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour {
     string sceneName; // coge el nombre de la escena
 	// Use this for initialization
 	void Awake () {
+        Scene currentScene = SceneManager.GetActiveScene(); // coger la escena del momento
+        sceneName = currentScene.name;
 
         if (instance == null)
         {
@@ -32,12 +34,12 @@ public class AudioManager : MonoBehaviour {
             s.source.loop = s.loop;
         }
 	}
-    public delegate void Change();
-    public static event Change TimeChanged;
-
     private void Start()
     {
-        // Play("Theme");
+        if (sceneName == "MenuInicio")
+        {
+            Play("MenuMusic");
+        }
         SceneManager.activeSceneChanged += ChangedActiveScene;    
     }
     private void ChangedActiveScene(Scene current, Scene next)
@@ -63,6 +65,7 @@ public class AudioManager : MonoBehaviour {
         if (next.name == "Introduccion")
         {
             Play("ThemeIntro");
+            Debug.Log("xd");
         }
         Debug.Log("Scenes: " + currentName + ", " + next.name);
     }
@@ -81,6 +84,11 @@ public class AudioManager : MonoBehaviour {
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found, so cannot be stopped!");
+            return;
+        }
         s.source.Stop();
     }
 }
