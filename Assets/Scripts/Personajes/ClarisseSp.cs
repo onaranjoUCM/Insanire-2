@@ -3,19 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ClarisseSp : MonoBehaviour {
+    PlayerController jugador;
     private GameObject Player;
     private Vector3 offset;
+    Collider2D Cl_Collider;
     // Use this for initialization
     void Start()
     {
-        Debug.Log("se llama Cl");
         Player = GameObject.FindWithTag("Player");
-        transform.position = Player.transform.position; 
+        transform.position = Player.transform.position;
+        Cl_Collider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.position = Player.transform.position + offset;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        Physics2D.IgnoreLayerCollision(11, 10, true);
+        Physics2D.IgnoreLayerCollision(11, 0, true);
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Lobo contacto con jugadora");
+            collision.GetComponent<Enemy>().ReducirSalud(10);
+        }
+    }
+    public void Activado()
+    {
+        Cl_Collider.enabled = !Cl_Collider.enabled;
+    }
+    public void Dessactivar()
+    {
+        jugador.Cl_Active = false;
     }
 }
