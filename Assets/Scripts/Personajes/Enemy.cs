@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
     public float distanceToPlayer = 1.2f;
 
     float signoVector;
+    bool dead = false;
 
     Transform playerTransform;
     Rigidbody2D rb2d;
@@ -41,9 +42,11 @@ public class Enemy : MonoBehaviour {
                 Move();
             }
 
-            if (health == 0)
+            if (health == 0 && !dead)
             {
+                dead = true;
                 animator.SetTrigger("Dead");
+                GetComponent<BoxCollider2D>().enabled = false;
             }
         }
     }

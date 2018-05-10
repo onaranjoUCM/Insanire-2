@@ -1,6 +1,8 @@
 ﻿using UnityEngine.Audio;
 using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour {
@@ -34,8 +36,38 @@ public class AudioManager : MonoBehaviour {
 	}
     private void Start()
     {
-        // Play("Theme");
-      
+        if (sceneName == "MenuInicio")
+        {
+            Play("MenuMusic");
+        }
+        SceneManager.activeSceneChanged += ChangedActiveScene;    
+    }
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        string currentName = current.name;
+
+        if (currentName == null)
+        {
+            // CurrentScene has been removed
+            currentName = "Replaced";
+        } if (currentName == "MenuInicio")
+        {
+            Play("ThemeIntro");
+        }
+        if(next.name == "Nivel 1")
+        {
+            Play("ThemeNivel1");
+        }
+        if (next.name == "MenuInicio")
+        {
+            Play("MenuMusic");
+        }
+        if (next.name == "Introduccion")
+        {
+            Play("ThemeIntro");
+            Debug.Log("xd");
+        }
+        Debug.Log("Scenes: " + currentName + ", " + next.name);
     }
 
     public void Play(string name)
@@ -52,6 +84,11 @@ public class AudioManager : MonoBehaviour {
     public void Stop(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found, so cannot be stopped!");
+            return;
+        }
         s.source.Stop();
     }
 }

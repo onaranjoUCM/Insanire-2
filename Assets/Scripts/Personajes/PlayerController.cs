@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     public GameObject HitboxSp;
     private int Descarga = 0;
 
+    //Clarisse Hability
+    public GameObject EnergyBall;
+
     public Stat Energy;
     public Stat Health;
 
@@ -51,7 +54,7 @@ public class PlayerController : MonoBehaviour
         character = GameManager.instance.GetCharacter();
         armaEquipada = "Punch";
         GameManager.instance.CambiarImagenArma(armaEquipada);
-        damage = 5;
+        damage = 2;
 
         if (character == "Delric")
         {
@@ -71,6 +74,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(character == "Clarisse")
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+               if (Energy.currentVal > 0)
+                {
+
+                }
+              
+            }
+        }
         if (character == "Delric")
         {
             if (Input.GetKeyDown(KeyCode.K))
@@ -125,7 +139,8 @@ public class PlayerController : MonoBehaviour
         {
             Health.CurrentVal -= 10;
 
-        }        
+        }
+
         if (Health.CurrentVal > 0)
         {
             Move();
@@ -143,6 +158,7 @@ public class PlayerController : MonoBehaviour
             HitboxSp.SetActive(false);
             FindObjectOfType<AudioManager>().Stop("DelricSp");
             MuerteJugador = true;
+            GameManager.instance.RestartLevel();
         }
     }
 
