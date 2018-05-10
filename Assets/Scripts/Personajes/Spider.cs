@@ -23,7 +23,10 @@ public class Spider : MonoBehaviour {
     {
         if (gameObject.GetComponent<Enemy>().health != 0)
         {
-            Instantiate(spiderling, transform.position, Quaternion.identity);
+            if (GetComponent<SpriteRenderer>().isVisible)
+            {
+                Instantiate(spiderling, transform.position, Quaternion.identity);
+            }
         } else
         {
             Destroy(puertaFinal);
