@@ -13,6 +13,7 @@ public class ClarisseSp : MonoBehaviour {
         Player = GameObject.FindWithTag("Player");
         transform.position = Player.transform.position;
         Cl_Collider = GetComponent<Collider2D>();
+        jugador = Player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -27,14 +28,15 @@ public class ClarisseSp : MonoBehaviour {
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("Lobo contacto con jugadora");
-            collision.GetComponent<Enemy>().ReducirSalud(10);
+            collision.GetComponent<Enemy>().ReducirSalud(30);
+            collision.GetComponent<Enemy>().Knockback(2);
         }
     }
     public void Activado()
     {
         Cl_Collider.enabled = !Cl_Collider.enabled;
     }
-    public void Dessactivar()
+    public void Desactivar()
     {
         jugador.Cl_Active = false;
     }
