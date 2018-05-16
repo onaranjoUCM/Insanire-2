@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public GameObject marco;
 
     private string character;
+    private int puntos = 0;
 
     void Awake()
     {
@@ -34,7 +35,6 @@ public class GameManager : MonoBehaviour {
             FindObjectOfType<AudioManager>().Play("ThemeNivel1");
         }
         SceneManager.LoadScene(nivel);
-        
     }
 
     public string GetCharacter()
@@ -86,5 +86,21 @@ public class GameManager : MonoBehaviour {
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void IncrementarPuntos(int incremento)
+    {
+        puntos = puntos + incremento;
+        ActualizarPuntos();
+    }
+
+    public void ActualizarPuntos()
+    {
+        GameObject.FindWithTag("txtPuntos").GetComponent<Text>().text = "Puntos: " + puntos;
+    }
+
+    public int GetPuntos()
+    {
+        return puntos;
     }
 }

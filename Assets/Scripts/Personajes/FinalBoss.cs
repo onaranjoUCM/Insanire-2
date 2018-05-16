@@ -26,6 +26,7 @@ public class FinalBoss : MonoBehaviour {
     }
 
     void Start () {
+        gameObject.GetComponent<Enemy>().health = gameObject.GetComponent<Enemy>().health + GameManager.instance.GetPuntos();
         maxHealth = gameObject.GetComponent<Enemy>().health;
         InvokeRepeating("CheckHealth", 0, 1);
         animator = GetComponentInChildren<Animator>();
