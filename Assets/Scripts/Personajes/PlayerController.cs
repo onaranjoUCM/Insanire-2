@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    static bool HabilidadActivada = false;
+    public static bool HabilidadActivada = false;
     static bool MuerteJugador = false;
 
     public float speed = 5;
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     //Clarisse Hability
     public GameObject EnergyBall;
+    [HideInInspector]
+    public bool Cl_Active = false;
 
     public Stat Energy;
     public Stat Health;
@@ -74,19 +76,28 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if(character == "Clarisse")
         {
+            HitboxSp.SetActive(false);
+            if (Cl_Active == false)
+            {
+                EnergyBall.SetActive(false);
+            }
             if (Input.GetKeyDown(KeyCode.K))
             {
-               if (Energy.currentVal > 0)
+                if (Energy.currentVal > 0 && Cl_Active == false)
                 {
-
-                }
-              
+                    Energy.currentVal -= 50;
+                    Cl_Active = true;
+                    animator.SetTrigger("K");                   
+                    EnergyBall.SetActive(true);                                    
+                }             
             }
         }
         if (character == "Delric")
         {
+            EnergyBall.SetActive(false);
             if (Input.GetKeyDown(KeyCode.K))
             {
 
@@ -129,7 +140,7 @@ public class PlayerController : MonoBehaviour
             Carga = Carga + 1;
         }
 
-        if (Carga > 100)
+        if (Carga > 200)
         {
             Energy.CurrentVal += 10;
             Carga = 0;

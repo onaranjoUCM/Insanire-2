@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     public int health = 100;
     public GameObject manchaSangre;
     public float distanceToPlayer = 1.2f;
+    public int puntos;
 
     float signoVector;
     bool dead = false;
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour {
     Rigidbody2D rb2d;
     Animator animator;
     GameObject player;
+    Collider2D collider;
 
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
@@ -28,6 +30,7 @@ public class Enemy : MonoBehaviour {
         playerTransform = player.GetComponent<Transform>();
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        collider = GetComponent<BoxCollider2D>();
 
         // Parámetros para que solo se choque con objetos de la misma capa
         contactFilter.useTriggers = false;
@@ -46,7 +49,8 @@ public class Enemy : MonoBehaviour {
             {
                 dead = true;
                 animator.SetTrigger("Dead");
-                GetComponent<BoxCollider2D>().enabled = false;
+                collider.enabled = false;
+                GameManager.instance.IncrementarPuntos(puntos);
             }
         }
     }
