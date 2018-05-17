@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClarisseSp : MonoBehaviour {
     PlayerController jugador;
     private GameObject Player;
-    private Vector3 offset;
+    //private Vector3 offset;
     Collider2D Cl_Collider;
     // Use this for initialization
     void Start()
@@ -19,7 +19,7 @@ public class ClarisseSp : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        transform.position = Player.transform.position + offset;
+        transform.position = Player.transform.position /*+ offset*/;
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {

@@ -16,7 +16,6 @@ public class Potion : MonoBehaviour {
 	}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("vidaaa");
         Destroy(this.gameObject);
         player.GetComponent<PlayerController>().AumentarSalud(Random.Range(8, 30));
     }

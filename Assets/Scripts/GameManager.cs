@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
             FindObjectOfType<AudioManager>().Play("ThemeNivel1");
         }
         SceneManager.LoadScene(nivel);
+        ActualizarPuntos();
     }
 
     public string GetCharacter()
@@ -86,6 +87,11 @@ public class GameManager : MonoBehaviour {
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public string EscenaActual()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 
     public void IncrementarPuntos(int incremento)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour {
 
@@ -20,11 +21,7 @@ public class Pause : MonoBehaviour {
                 Pausa();
             }
         }
-        if (GameIsPaused)
-        {
-            Time.timeScale = 0f;
-        }
-	}
+    }
 
     public void Resume()
     {
@@ -37,17 +34,19 @@ public class Pause : MonoBehaviour {
 
     void Pausa ()
     {
+        Time.timeScale = 0f;
         pauseMenuUI.SetActive(true);        
         GameIsPaused = true;
         AudioListener.volume = 0.3f;
     }
+
     public void MenuInicio()
     {
         AudioListener.volume = 1f;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        Application.LoadLevel("MenuInicio");
+        SceneManager.LoadScene("MenuInicio");
         FindObjectOfType<AudioManager>().Play("MenuMusic");
     }
 

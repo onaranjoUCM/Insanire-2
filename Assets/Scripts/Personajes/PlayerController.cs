@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static bool HabilidadActivada = false;
-    static bool MuerteJugador = false;
+    //static bool MuerteJugador = false;
 
     public float speed = 5;
     public int health = 100;
@@ -84,13 +84,13 @@ public class PlayerController : MonoBehaviour
             {
                 EnergyBall.SetActive(false);
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
             {
-                if (Energy.currentVal > 0 && Cl_Active == false)
+                if (Energy.currentVal > 50 && Cl_Active == false)
                 {
                     Energy.currentVal -= 50;
                     Cl_Active = true;
-                    animator.SetTrigger("K");                   
+                    //animator.SetTrigger("K");                   
                     EnergyBall.SetActive(true);                                    
                 }             
             }
@@ -98,12 +98,12 @@ public class PlayerController : MonoBehaviour
         if (character == "Delric")
         {
             EnergyBall.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
             {
 
                 if (HabilidadActivada == false && Energy.currentVal>0)
                 {
-                    animator.SetTrigger("K");
+                    //animator.SetTrigger("K");
                     HabilidadActivada = true;
                     FindObjectOfType<AudioManager>().Play("DelricSp");
                 }
@@ -145,30 +145,24 @@ public class PlayerController : MonoBehaviour
             Energy.CurrentVal += 10;
             Carga = 0;
         }
-        
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Health.CurrentVal -= 10;
-
-        }
 
         if (Health.CurrentVal > 0)
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
+            if (Input.GetKeyDown(KeyCode.K) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 StartCoroutine(Attack());
             }
         }
-        else if(MuerteJugador == false)
+        else //if(MuerteJugador == false)
         {
             animator.SetTrigger("Dead");
             FindObjectOfType<AudioManager>().Play("Muerte");
             HabilidadActivada = false;
             HitboxSp.SetActive(false);
             FindObjectOfType<AudioManager>().Stop("DelricSp");
-            MuerteJugador = true;
+            //MuerteJugador = true;
             GameManager.instance.RestartLevel();
         }
     }

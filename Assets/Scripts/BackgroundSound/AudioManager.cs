@@ -65,9 +65,7 @@ public class AudioManager : MonoBehaviour {
         if (next.name == "Introduccion")
         {
             Play("ThemeIntro");
-            Debug.Log("xd");
         }
-        Debug.Log("Scenes: " + currentName + ", " + next.name);
     }
 
     public void Play(string name)

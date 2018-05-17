@@ -6,7 +6,6 @@ public class SeleccionArma : MonoBehaviour {
 
     GameObject player;
     GameObject ekeyicon;
-    static bool GameIsPaused;
 
     public GameObject SeleccionArmaUI;
     
@@ -14,20 +13,9 @@ public class SeleccionArma : MonoBehaviour {
     {
         ekeyicon = transform.GetChild(0).gameObject;
         player = GameObject.FindWithTag("Player");
-        GameIsPaused = false;
 	}
 	
 	void Update () {
-        // Detiene el juego mientras se muestra el menú
-        if (GameIsPaused)
-        {
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-
         // Muestra el menú cuando el jugador se acerca y pulsa E
         if (Vector2.Distance(transform.position, player.transform.position) <= 1)
         {
@@ -36,7 +24,7 @@ public class SeleccionArma : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 SeleccionArmaUI.SetActive(true);
-                GameIsPaused = true;
+                Time.timeScale = 0f;
             }
         } else
         {
@@ -47,24 +35,24 @@ public class SeleccionArma : MonoBehaviour {
     public void ElegirEspada()
     {
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Sword");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Sword");
+        Time.timeScale = 1f;
     }
 
     public void ElegirHacha()
     {
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Axe");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Axe");
+        Time.timeScale = 1f;
     }
 
     public void ElegirArco()
     {
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
         player.GetComponent<PlayerController>().EquiparArma("Bow");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Bow");
+        Time.timeScale = 1f;
     }
 }
