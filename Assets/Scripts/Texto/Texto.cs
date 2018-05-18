@@ -7,6 +7,20 @@ public class Texto : MonoBehaviour
 {
     public GameObject cajatexto;
     public string mensaje;
+    public bool pausa = false;
+
+    void Start ()
+    {
+
+        if (pausa)
+        {
+
+            Time.timeScale = 0f;
+
+        }
+
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +36,13 @@ public class Texto : MonoBehaviour
     private void ocultatexto ()
     {
         cajatexto.SetActive(false);
+        if (pausa)
+        {
+            Time.timeScale = 2f;
+        }
+        
         
     }
+
 
 }
