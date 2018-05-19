@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static bool HabilidadActivada = false;
-    //static bool MuerteJugador = false;
 
     public float speed = 5;
     public int health = 100;
@@ -16,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private string character;
     private int damage;
     private int Carga;
+    private bool armaActivada = false;
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
@@ -74,8 +74,13 @@ public class PlayerController : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        if (armaActivada)
+        {
+            armaActivada = false;
+            weaponCollider.enabled = false;
+        }
 
         if(character == "Clarisse")
         {
@@ -89,21 +94,21 @@ public class PlayerController : MonoBehaviour
                 if (Energy.currentVal > 50 && Cl_Active == false)
                 {
                     Energy.currentVal -= 50;
-                    Cl_Active = true;
-                    //animator.SetTrigger("K");                   
+                    Cl_Active = true;                 
                     EnergyBall.SetActive(true);                                    
                 }             
             }
         }
+
         if (character == "Delric")
         {
             EnergyBall.SetActive(false);
+
             if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
             {
 
                 if (HabilidadActivada == false && Energy.currentVal>0)
                 {
-                    //animator.SetTrigger("K");
                     HabilidadActivada = true;
                     FindObjectOfType<AudioManager>().Play("DelricSp");
                 }
@@ -115,11 +120,11 @@ public class PlayerController : MonoBehaviour
                 }
                         
             }
+
             if (HabilidadActivada == true)
             {
                   HitboxSp.SetActive(true);
                   Descarga = Descarga + 1;
-                  // introducir daño
                  if (Descarga > 15)
                  {
                     Energy.currentVal -= 3;
@@ -132,7 +137,6 @@ public class PlayerController : MonoBehaviour
                     FindObjectOfType<AudioManager>().Stop("DelricSp");
                 }
             }
-
         }
 
         if (Energy.CurrentVal < Energy.MaxVal) 
@@ -152,17 +156,14 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.K) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
-                StartCoroutine(Attack());
+                Attack();
             }
-        }
-        else //if(MuerteJugador == false)
-        {
+        } else {
             animator.SetTrigger("Dead");
             FindObjectOfType<AudioManager>().Play("Muerte");
             HabilidadActivada = false;
             HitboxSp.SetActive(false);
             FindObjectOfType<AudioManager>().Stop("DelricSp");
-            //MuerteJugador = true;
             GameManager.instance.RestartLevel();
         }
     }
@@ -231,7 +232,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Ataque
-    IEnumerator Attack()
+    void Attack()
     {
         animator.SetTrigger("Attack");
         if (armaEquipada == "Bow")
@@ -253,9 +254,11 @@ public class PlayerController : MonoBehaviour
 
         } else
         {
-            weaponCollider.enabled = true;
-            yield return new WaitForSeconds(0.1f);
-            weaponCollider.enabled = false;
+            if (!armaActivada)
+            {
+                weaponCollider.enabled = true;
+                armaActivada = true;
+            }
         }
     }
 
@@ -279,6 +282,7 @@ public class PlayerController : MonoBehaviour
             collision.GetComponent<Enemy>().Knockback(1f);
             collision.GetComponent<Enemy>().ReducirSalud(damage);
         }
+
         if(collision.gameObject == HitboxSp)
         {
             Physics2D.IgnoreLayerCollision(0, 10, true);
