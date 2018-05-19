@@ -50,7 +50,8 @@ public class AudioManager : MonoBehaviour {
         {
             // CurrentScene has been removed
             currentName = "Replaced";
-        } if (currentName == "MenuInicio")
+        }
+        if (currentName == "MenuInicio")
         {
             Play("ThemeIntro");
         }
@@ -58,14 +59,27 @@ public class AudioManager : MonoBehaviour {
         {
             Play("ThemeNivel1");
         }
-        if (next.name == "MenuInicio")
+        else if (next.name == "MenuInicio")
         {
             Play("MenuMusic");
         }
-        if (next.name == "Introduccion")
+        else if (next.name == "Introduccion")
         {
             Play("ThemeIntro");
         }
+        else if (next.name == "Nivel 2")
+        {
+            Play("ThemeNivel2");
+        }
+        else if (next.name == "Nivel 3")
+        {
+            Play("ThemeNivel3");
+        }
+        else if (next.name == "Nivel Final")
+        {
+            Play("ThemeNivelF");
+        }
+
     }
 
     public void Play(string name)
@@ -89,4 +103,5 @@ public class AudioManager : MonoBehaviour {
         }
         s.source.Stop();
     }
+
 }

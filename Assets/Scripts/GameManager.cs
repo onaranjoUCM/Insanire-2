@@ -30,10 +30,7 @@ public class GameManager : MonoBehaviour {
 
     public void CargarNivel(string nivel)
     {
-        if (nivel == "Nivel 1")
-        {
-            FindObjectOfType<AudioManager>().Play("ThemeNivel1");
-        }
+        Time.timeScale = 1f;
         SceneManager.LoadScene(nivel);
         ActualizarPuntos();
     }

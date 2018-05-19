@@ -171,9 +171,12 @@ public class PlayerController : MonoBehaviour
     {
         // Recoge los parámetros del movimiento
         Vector2 move = Vector2.zero;
-        move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
+        if (!Cl_Active)
+        {
+            move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
+            
+        }
         float distance = move.magnitude;
-
         // Da la vuelta al sprite según la dirección
         if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1))
         {

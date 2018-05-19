@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DelricSpCollider : MonoBehaviour {
     private GameObject Player;
+    int aux = 0;
     //private Vector3 offset;
 	
 	void Start () {
@@ -21,8 +22,12 @@ public class DelricSpCollider : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.GetComponent<Enemy>().ReducirSalud(1);
-        }
+            aux += 4;
+            if (aux % 4 == 0)
+            {
+                collision.GetComponent<Enemy>().ReducirSalud(1);
+            }
+        }      
         Physics2D.IgnoreLayerCollision(11, 10, true);
         Physics2D.IgnoreLayerCollision(11, 0, true);
     }

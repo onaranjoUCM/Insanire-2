@@ -28,7 +28,7 @@ public class ClarisseSp : MonoBehaviour {
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("Lobo contacto con jugadora");
-            collision.GetComponent<Enemy>().ReducirSalud(30);
+            collision.GetComponent<Enemy>().ReducirSalud(35);
             collision.GetComponent<Enemy>().Knockback(2);
         }
     }

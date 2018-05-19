@@ -19,16 +19,49 @@ public class SoundCheckBG : MonoBehaviour {
         {
             FindObjectOfType<AudioManager>().Stop("ThemeIntro");
             FindObjectOfType<AudioManager>().Stop("ThemeNivel1");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel3");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivelF");
         }
         else if (sceneName == "Introduccion")
         {
             FindObjectOfType<AudioManager>().Stop("MenuMusic");
             FindObjectOfType<AudioManager>().Stop("ThemeNivel1");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel2");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel3");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivelF");
         }
         else if (sceneName == "Nivel 1")
         {
             FindObjectOfType<AudioManager>().Stop("MenuMusic");
             FindObjectOfType<AudioManager>().Stop("ThemeIntro");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel2");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel3");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivelF");
+        }
+        else if (sceneName == "Nivel 2")
+        {
+            FindObjectOfType<AudioManager>().Stop("MenuMusic");
+            FindObjectOfType<AudioManager>().Stop("ThemeIntro");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel1");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel3");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivelF");
+        }
+        else if (sceneName == "Nivel 3")
+        {
+            FindObjectOfType<AudioManager>().Stop("MenuMusic");
+            FindObjectOfType<AudioManager>().Stop("ThemeIntro");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel1");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel2");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivelF");
+        }
+        else if (sceneName == "Nivel Final")
+        {
+            FindObjectOfType<AudioManager>().Stop("MenuMusic");
+            FindObjectOfType<AudioManager>().Stop("ThemeIntro");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel1");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel2");
+            FindObjectOfType<AudioManager>().Stop("ThemeNivel3");
         }
     }
+
 }
