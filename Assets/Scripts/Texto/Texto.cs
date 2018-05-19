@@ -9,40 +9,39 @@ public class Texto : MonoBehaviour
     public string mensaje;
     public bool pausa = false;
 
-    void Start ()
+    private void Start()
     {
-
         if (pausa)
         {
-
-            Time.timeScale = 0f;
-
+            mensaje = mensaje + " (Pulsa E para continuar)";
         }
-
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            cajatexto.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
+            if (pausa)
+            {
+                Time.timeScale = 0f;
+            }
             cajatexto.SetActive(true);
             cajatexto.GetComponent<Text>().text = mensaje;
-            Invoke("ocultatexto", 5f);
-            gameObject.SetActive(false);
+            Invoke("OcultaTexto", 5f);
         }
-
     }
-    private void ocultatexto ()
+
+    private void OcultaTexto()
     {
         cajatexto.SetActive(false);
-        if (pausa)
-        {
-            Time.timeScale = 2f;
-        }
-        
-        
     }
-
-
 }
