@@ -8,6 +8,7 @@ public class Texto : MonoBehaviour
     public GameObject cajatexto;
     public string mensaje;
     public bool pausa = false;
+    bool activo = true;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class Texto : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && activo)
         {
             if (pausa)
             {
@@ -36,6 +37,7 @@ public class Texto : MonoBehaviour
             }
             cajatexto.SetActive(true);
             cajatexto.GetComponent<Text>().text = mensaje;
+            activo = false;
             Invoke("OcultaTexto", 5f);
         }
     }

@@ -15,7 +15,6 @@ public class SeleccionPersonaje : MonoBehaviour {
         {
             GameManager.instance.SetCharacter("Delric");
         }
-        //GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Punch");
     }
 
 }

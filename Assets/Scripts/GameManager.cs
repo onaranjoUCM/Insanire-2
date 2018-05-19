@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour {
 
     public void SetCharacter(string stringCharacter)
     {
+        Debug.Log(EscenaActual());
         character = stringCharacter;
         marco.transform.GetChild(0).gameObject.GetComponent<Text>().text = character;
 
