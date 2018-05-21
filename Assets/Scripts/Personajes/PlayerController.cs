@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public RuntimeAnimatorController[] playerAnimators;
     public GameObject flecha;
 
-    private string armaEquipada;
+    public string armaEquipada;
     private string character;
     private int damage;
     private int Carga;

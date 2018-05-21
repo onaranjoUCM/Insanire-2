@@ -37,14 +37,17 @@ public class SeleccionArma : MonoBehaviour {
     {
         Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Sword");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Sword");
+        
     }
 
     public void ElegirHacha()
     {
         Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Axe");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Axe");
     }
@@ -53,7 +56,12 @@ public class SeleccionArma : MonoBehaviour {
     {
         Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Bow");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Bow");
+    }
+    void Sonido()
+    {
+        FindObjectOfType<AudioManager>().Play("PickedWeapon");
     }
 }

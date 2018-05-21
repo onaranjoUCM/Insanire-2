@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour {
     public GameObject manchaSangre;
     public float distanceToPlayer = 1.2f;
     public int puntos;
+    PlayerController sonidos;
 
     float signoVector;
     bool dead = false;
@@ -126,6 +127,25 @@ public class Enemy : MonoBehaviour {
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
+        /*
+        sonidos = GetComponent<PlayerController>();
+
+        if (sonidos.armaEquipada == "Espada")
+        {
+            FindObjectOfType<AudioManager>().Play("Espada");
+        }
+        else if (sonidos.armaEquipada == "Hacha")
+        {
+            FindObjectOfType<AudioManager>().Play("Hacha");
+        }
+        else if (sonidos.armaEquipada == "Bow")
+        {
+            FindObjectOfType<AudioManager>().Play("Arco");
+        }
+        else if (sonidos.armaEquipada == "Punch")
+        {
+            FindObjectOfType<AudioManager>().Play("Puñetazo");
+        }*/
         FindObjectOfType<AudioManager>().Play("Puñetazo");
         health -= reduccion;
         if (health < 0) { health = 0; }
