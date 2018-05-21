@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
                 flecha.transform.Rotate(0f, 180f, 0f);
                 Instantiate(flecha, posicionFlecha, Quaternion.Euler(0,180,0));
             }
-
+            FindObjectOfType<AudioManager>().Play("ArcoShoot");
         } else
         {
             if (!armaActivada)
@@ -255,6 +255,7 @@ public class PlayerController : MonoBehaviour
                 armaActivada = true;
             }
         }
+        
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
