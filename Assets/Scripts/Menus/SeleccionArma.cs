@@ -23,6 +23,7 @@ public class SeleccionArma : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                FindObjectOfType<AudioManager>().Play("Chest");
                 SeleccionArmaUI.SetActive(true);
                 Time.timeScale = 0f;
             }

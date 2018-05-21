@@ -126,6 +126,7 @@ public class Enemy : MonoBehaviour {
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
+        FindObjectOfType<AudioManager>().Play("Puñetazo");
         health -= reduccion;
         if (health < 0) { health = 0; }
     }

@@ -16,6 +16,7 @@ public class Potion : MonoBehaviour {
 	}
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        FindObjectOfType<AudioManager>().Play("Vida+");
         Destroy(this.gameObject);
         player.GetComponent<PlayerController>().AumentarSalud(Random.Range(8, 30));
     }
