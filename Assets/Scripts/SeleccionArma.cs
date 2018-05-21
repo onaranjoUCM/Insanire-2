@@ -6,7 +6,6 @@ public class SeleccionArma : MonoBehaviour {
 
     GameObject player;
     GameObject ekeyicon;
-    static bool GameIsPaused;
 
     public GameObject SeleccionArmaUI;
     
@@ -14,20 +13,9 @@ public class SeleccionArma : MonoBehaviour {
     {
         ekeyicon = transform.GetChild(0).gameObject;
         player = GameObject.FindWithTag("Player");
-        GameIsPaused = false;
 	}
 	
 	void Update () {
-        // Detiene el juego mientras se muestra el menú
-        if (GameIsPaused)
-        {
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-
         // Muestra el menú cuando el jugador se acerca y pulsa E
         if (Vector2.Distance(transform.position, player.transform.position) <= 1)
         {
@@ -35,8 +23,9 @@ public class SeleccionArma : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                FindObjectOfType<AudioManager>().Play("Chest");
                 SeleccionArmaUI.SetActive(true);
-                GameIsPaused = true;
+                Time.timeScale = 0f;
             }
         } else
         {
@@ -46,22 +35,34 @@ public class SeleccionArma : MonoBehaviour {
 
     public void ElegirEspada()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Sword");
+<<<<<<< HEAD:Assets/Scripts/SeleccionArma.cs
+=======
+        GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Sword");
+        
+>>>>>>> master:Assets/Scripts/Menus/SeleccionArma.cs
     }
 
     public void ElegirHacha()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Axe");
     }
 
     public void ElegirArco()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
-        GameIsPaused = false;
+        Sonido();
         player.GetComponent<PlayerController>().EquiparArma("Bow");
+    }
+    void Sonido()
+    {
+        FindObjectOfType<AudioManager>().Play("PickedWeapon");
     }
 }

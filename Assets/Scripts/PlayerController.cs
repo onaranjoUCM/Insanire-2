@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
+=======
+    public static bool HabilidadActivada = false;
+
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
     public float speed = 5;
     public int health = 100;
     public RuntimeAnimatorController[] playerAnimators;
     public GameObject flecha;
 
-    private string armaEquipada;
+    public string armaEquipada;
     private string character;
     private int damage;
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
+=======
+    private int Carga;
+    private bool armaActivada = false;
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
 
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb2d;
@@ -21,6 +31,18 @@ public class PlayerController : MonoBehaviour
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
+=======
+    //Delric Hability
+    public GameObject HitboxSp;
+    private int Descarga = 0;
+
+    //Clarisse Hability
+    public GameObject EnergyBall;
+    [HideInInspector]
+    public bool Cl_Active = false;
+
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
     public Stat Energy;
     public Stat Health;
 
@@ -63,9 +85,67 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
         if (Input.GetKeyDown(KeyCode.K))
         {
             Energy.CurrentVal -= 10;
+=======
+        if(character == "Clarisse")
+        {
+            HitboxSp.SetActive(false);
+            if (Cl_Active == false)
+            {
+                EnergyBall.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
+            {
+                if (Energy.currentVal > 50 && Cl_Active == false)
+                {
+                    Energy.currentVal -= 50;
+                    Cl_Active = true;                 
+                    EnergyBall.SetActive(true);                                    
+                }             
+            }
+        }
+
+        if (character == "Delric")
+        {
+            EnergyBall.SetActive(false);
+
+            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
+            {
+
+                if (HabilidadActivada == false && Energy.currentVal>0)
+                {
+                    HabilidadActivada = true;
+                    FindObjectOfType<AudioManager>().Play("DelricSp");
+                }
+                else
+                {
+                    HabilidadActivada = false;
+                    HitboxSp.SetActive(false);
+                    FindObjectOfType<AudioManager>().Stop("DelricSp");
+                }
+                        
+            }
+
+            if (HabilidadActivada == true)
+            {
+                  HitboxSp.SetActive(true);
+                  Descarga = Descarga + 1;
+                 if (Descarga > 15)
+                 {
+                    Energy.currentVal -= 3;
+                    Descarga = 0;
+                 }
+                 if (Energy.currentVal < 1)
+                 {
+                    HabilidadActivada = false;
+                    HitboxSp.SetActive(false);
+                    FindObjectOfType<AudioManager>().Stop("DelricSp");
+                }
+            }
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
         }
 
         if (Energy.CurrentVal < Energy.MaxVal)
@@ -73,31 +153,49 @@ public class PlayerController : MonoBehaviour
             Carga = Carga + 1;
         }
 
-        if (Carga > 100)
+        if (Carga > 200)
         {
             Energy.CurrentVal += 10;
             Carga = 0;
         }
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
         
         if (Input.GetKeyDown(KeyCode.P))
         {
             Health.CurrentVal -= 10;
         }
     }
+=======
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
 
     private void FixedUpdate()
     {
         if (Health.CurrentVal > 0)
         {
             Move();
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
             if (Input.GetKeyDown(KeyCode.L) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
+=======
+
+            if (Input.GetKeyDown(KeyCode.K) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
             {
-                StartCoroutine(Attack());
+                Attack();
             }
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
         }
         else
         {
             animator.SetTrigger("Dead");
+=======
+        } else {
+            animator.SetTrigger("Dead");
+            FindObjectOfType<AudioManager>().Play("Muerte");
+            HabilidadActivada = false;
+            HitboxSp.SetActive(false);
+            FindObjectOfType<AudioManager>().Stop("DelricSp");
+            GameManager.instance.RestartLevel();
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
         }
     }
 
@@ -105,9 +203,13 @@ public class PlayerController : MonoBehaviour
     {
         // Recoge los parámetros del movimiento
         Vector2 move = Vector2.zero;
-        move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
-        float distance = move.magnitude;
+        if (!Cl_Active)
+        {
+            move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
+            
+        }
 
+        float distance = move.magnitude;
         // Da la vuelta al sprite según la dirección
         if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1))
         {
@@ -162,7 +264,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Ataque
-    IEnumerator Attack()
+    void Attack()
     {
         animator.SetTrigger("Attack");
         if (armaEquipada == "Bow")
@@ -184,9 +286,11 @@ public class PlayerController : MonoBehaviour
 
         } else
         {
-            weaponCollider.enabled = true;
-            yield return new WaitForSeconds(0.1f);
-            weaponCollider.enabled = false;
+            if (!armaActivada)
+            {
+                weaponCollider.enabled = true;
+                armaActivada = true;
+            }
         }
     }
 
@@ -208,6 +312,29 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Enemy")
         {
             collision.GetComponent<Enemy>().ReducirSalud(damage);
+        }
+<<<<<<< HEAD:Assets/Scripts/PlayerController.cs
+=======
+
+        if (armaActivada)
+        {
+            armaActivada = false;
+            weaponCollider.enabled = false;
+        }
+
+        if (collision.gameObject == HitboxSp)
+        {
+            Physics2D.IgnoreLayerCollision(0, 10, true);
+        }
+>>>>>>> master:Assets/Scripts/Personajes/PlayerController.cs
+    }
+
+    private void OnCollissionEnter2D(Collider2D collision)
+    {
+        if (armaActivada)
+        {
+            armaActivada = false;
+            weaponCollider.enabled = false;
         }
     }
 
