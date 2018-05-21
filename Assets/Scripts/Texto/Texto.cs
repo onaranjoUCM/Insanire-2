@@ -20,7 +20,7 @@ public class Texto : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && cajatexto.active)
         {
             cajatexto.SetActive(false);
             Time.timeScale = 1f;

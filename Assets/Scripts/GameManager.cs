@@ -32,7 +32,17 @@ public class GameManager : MonoBehaviour {
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(nivel);
-        ActualizarPuntos();
+    }
+
+    void OnLevelWasLoaded()
+    {
+        string escena = SceneManager.GetActiveScene().name;
+        if (escena != "MenuInicio" && escena != "Instrucciones" && escena != "SeleccionPersonaje")
+        {
+            ActualizarPuntos();
+            CambiarImagenPersonaje();
+            CambiarImagenArma("Punch");
+        }
     }
 
     public string GetCharacter()
@@ -40,12 +50,10 @@ public class GameManager : MonoBehaviour {
         return character;
     }
 
-    public void SetCharacter(string stringCharacter)
+    public void CambiarImagenPersonaje()
     {
-        Debug.Log(EscenaActual());
-        character = stringCharacter;
+        marco = GameObject.FindWithTag("Marco");
         marco.transform.GetChild(0).gameObject.GetComponent<Text>().text = character;
-
         if (character == "Delric")
         {
             marco.transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().sprite = characterPictures[0];
@@ -55,6 +63,11 @@ public class GameManager : MonoBehaviour {
         {
             marco.transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().sprite = characterPictures[1];
         }
+    }
+
+    public void SetCharacter(string stringCharacter)
+    {
+        character = stringCharacter;
     }
 
     public void CambiarImagenArma(string arma)
@@ -84,6 +97,7 @@ public class GameManager : MonoBehaviour {
 
     public void RestartLevel()
     {
+        puntos = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

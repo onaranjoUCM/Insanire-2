@@ -35,25 +35,25 @@ public class SeleccionArma : MonoBehaviour {
 
     public void ElegirEspada()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
         player.GetComponent<PlayerController>().EquiparArma("Sword");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Sword");
-        Time.timeScale = 1f;
     }
 
     public void ElegirHacha()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
         player.GetComponent<PlayerController>().EquiparArma("Axe");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Axe");
-        Time.timeScale = 1f;
     }
 
     public void ElegirArco()
     {
+        Time.timeScale = 1f;
         SeleccionArmaUI.SetActive(false);
         player.GetComponent<PlayerController>().EquiparArma("Bow");
         GameManager.instance.GetComponent<GameManager>().CambiarImagenArma("Bow");
-        Time.timeScale = 1f;
     }
 }

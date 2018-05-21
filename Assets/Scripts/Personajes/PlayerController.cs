@@ -76,13 +76,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (armaActivada)
-        {
-            armaActivada = false;
-            weaponCollider.enabled = false;
-        }
-        */
         if(character == "Clarisse")
         {
             HitboxSp.SetActive(false);
@@ -178,6 +171,7 @@ public class PlayerController : MonoBehaviour
             move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
             
         }
+
         float distance = move.magnitude;
         // Da la vuelta al sprite según la dirección
         if ((move.x > 0 && Mathf.Round(transform.rotation.y) == 0) || (move.x < 0 && Mathf.Round(transform.rotation.y) == -1))
@@ -282,16 +276,26 @@ public class PlayerController : MonoBehaviour
         {
             collision.GetComponent<Enemy>().Knockback(1f);
             collision.GetComponent<Enemy>().ReducirSalud(damage);
-            if (armaActivada)
-            {
-                armaActivada = false;
-                weaponCollider.enabled = false;
-            }
         }
 
-        if(collision.gameObject == HitboxSp)
+        if (armaActivada)
+        {
+            armaActivada = false;
+            weaponCollider.enabled = false;
+        }
+
+        if (collision.gameObject == HitboxSp)
         {
             Physics2D.IgnoreLayerCollision(0, 10, true);
+        }
+    }
+
+    private void OnCollissionEnter2D(Collider2D collision)
+    {
+        if (armaActivada)
+        {
+            armaActivada = false;
+            weaponCollider.enabled = false;
         }
     }
 

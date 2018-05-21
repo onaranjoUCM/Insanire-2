@@ -67,22 +67,4 @@ public class FinalBoss : MonoBehaviour {
     {
         currentHealth = gameObject.GetComponent<Enemy>().health;
     }
-
-    /*
-    void CheckEnemies()
-    {
-        int numeroEnemigos = 0;
-        GameObject[] enemigos = GameObject.FindGameObjectsWithTag("Enemy");
-
-        for (int i = 0; i < enemigos.Length; i++)
-        {
-            if (enemigos[i].GetComponent<Enemy>().health != 0)
-            {
-                numeroEnemigos++;
-            }
-        }
-
-        nEnemigos = numeroEnemigos;
-    }
-    */
 }

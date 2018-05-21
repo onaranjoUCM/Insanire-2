@@ -27,7 +27,6 @@ public class ClarisseSp : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(11, 0, true);
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Lobo contacto con jugadora");
             collision.GetComponent<Enemy>().ReducirSalud(35);
             collision.GetComponent<Enemy>().Knockback(2);
         }
