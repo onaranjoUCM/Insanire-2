@@ -76,12 +76,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        /*
         if (armaActivada)
         {
             armaActivada = false;
             weaponCollider.enabled = false;
         }
-
+        */
         if(character == "Clarisse")
         {
             HitboxSp.SetActive(false);
@@ -281,6 +282,11 @@ public class PlayerController : MonoBehaviour
         {
             collision.GetComponent<Enemy>().Knockback(1f);
             collision.GetComponent<Enemy>().ReducirSalud(damage);
+            if (armaActivada)
+            {
+                armaActivada = false;
+                weaponCollider.enabled = false;
+            }
         }
 
         if(collision.gameObject == HitboxSp)
