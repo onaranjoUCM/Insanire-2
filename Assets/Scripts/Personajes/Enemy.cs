@@ -127,26 +127,26 @@ public class Enemy : MonoBehaviour {
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
-        /*
-        sonidos = GetComponent<PlayerController>();
+        AudioManager audiomanager = FindObjectOfType<AudioManager>();
+        string arma = player.GetComponent<PlayerController>().armaEquipada;
 
-        if (sonidos.armaEquipada == "Espada")
+        if (arma == "Sword")
         {
-            FindObjectOfType<AudioManager>().Play("Espada");
+            audiomanager.Play("Espada");
         }
-        else if (sonidos.armaEquipada == "Hacha")
+        else if (arma == "Axe")
         {
-            FindObjectOfType<AudioManager>().Play("Hacha");
+            audiomanager.Play("Hacha");
         }
-        else if (sonidos.armaEquipada == "Bow")
+        else if (arma == "Bow")
         {
-            FindObjectOfType<AudioManager>().Play("Arco");
+            audiomanager.Play("Arco");
         }
-        else if (sonidos.armaEquipada == "Punch")
+        else if (arma == "Punch")
         {
-            FindObjectOfType<AudioManager>().Play("Puñetazo");
-        }*/
-        FindObjectOfType<AudioManager>().Play("Puñetazo");
+            audiomanager.Play("Puñetazo");
+        }
+        
         health -= reduccion;
         if (health < 0) { health = 0; }
     }
