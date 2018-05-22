@@ -21,7 +21,7 @@ public class FinalBoss : MonoBehaviour {
 
         if (GameManager.instance.GetCharacter() == "Clarisse")
         {
-            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[0];
+            GetComponent<Animator>().runtimeAnimatorController = playerAnimators[1];
         }
     }
 

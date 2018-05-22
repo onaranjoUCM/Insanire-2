@@ -97,7 +97,10 @@ public class GameManager : MonoBehaviour {
 
     public void RestartLevel()
     {
-        puntos = 0;
+        if (EscenaActual() != "Nivel Final")
+        {
+            puntos = 0;
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
