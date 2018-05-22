@@ -20,45 +20,51 @@ public class PuzzleFuego : MonoBehaviour {
 	
     public void Boton(int n)
     {
-        for (int i = 0; i < contadores.Length; i++)
-        {
-            //contadores[i]++;
-        }
-
         switch (n) {
             case 1:
-                if (contadores[0] <= 4)
+                if (contadores[2] < 5)
                 {
-                    contadores[0]++;
                     contadores[2]++;
+                } else
+                {
+                    Instantiate(bat, new Vector3(65f, 14, 1), Quaternion.identity);
                 }
                 break;
             case 2:
-                if (contadores[1] <= 4)
+                if (contadores[3] < 5)
                 {
-                    contadores[1]++;
                     contadores[3]++;
+                }
+                else
+                {
+                    Instantiate(bat, new Vector3(65f, 14, 1), Quaternion.identity);
                 }
                 break;
             case 3:
-                if (contadores[2] <= 4)
+                if (contadores[1] < 5)
                 {
-                    contadores[2]++;
                     contadores[1]++;
+                }
+                else
+                {
+                    Instantiate(bat, new Vector3(65f, 14, 1), Quaternion.identity);
                 }
                 break;
             case 4:
-                if (contadores[3] <= 4)
+                if (contadores[0] < 5)
                 {
-                    contadores[3]++;
                     contadores[0]++;
+                }
+                else
+                {
+                    Instantiate(bat, new Vector3(65f, 14, 1), Quaternion.identity);
                 }
                 break;
             case 5:
                 ResetPuzzle();
                 break;
         }
-
+        
         ActualizaPuzzle();
         ResolverPuzzle();
     }
@@ -93,7 +99,7 @@ public class PuzzleFuego : MonoBehaviour {
     public void ResolverPuzzle()
     {
         bool resuelto = true;
-        bool error = false;
+        //bool error = false;
         for (int i = 0; i < filas.Length; i++)
         {
             for (int j = 0; j < filas[i].childCount; j++)
@@ -102,11 +108,12 @@ public class PuzzleFuego : MonoBehaviour {
                 {
                     resuelto = false;
                 }
-
+                /*
                 if (filas[i].GetChild(4).gameObject.activeSelf == true)
                 {
                     error = true;
                 }
+                */
             }
         }
 
@@ -116,10 +123,11 @@ public class PuzzleFuego : MonoBehaviour {
             AntorchasApagadas.SetActive(false);
             AntorchasEncendidas.SetActive(true);
         }
-
+        /*
         if (!resuelto && error)
         {
-            Instantiate(bat, new Vector3(58.5f, 17, 1), Quaternion.identity);
+            Instantiate(bat, new Vector3(65f, 14, 1), Quaternion.identity);
         }
+        */
     }
 }
