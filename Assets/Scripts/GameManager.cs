@@ -97,10 +97,6 @@ public class GameManager : MonoBehaviour {
 
     public void RestartLevel()
     {
-        if (EscenaActual() != "Nivel Final")
-        {
-            puntos = 0;
-        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -117,7 +113,7 @@ public class GameManager : MonoBehaviour {
 
     public void ActualizarPuntos()
     {
-        GameObject.FindWithTag("txtPuntos").GetComponent<Text>().text = "Puntos: " + puntos;
+        GameObject.FindWithTag("txtPuntos").GetComponent<Text>().text = "Almas: " + puntos;
     }
 
     public int GetPuntos()

@@ -8,6 +8,8 @@ public class Texto : MonoBehaviour
     public GameObject cajatexto;
     public string mensaje;
     public bool pausa = false;
+    public GameObject puerta;
+
     bool activo = true;
 
     private void Start()
@@ -35,6 +37,12 @@ public class Texto : MonoBehaviour
             {
                 Time.timeScale = 0f;
             }
+
+            if(puerta != null)
+            {
+                puerta.SetActive(false);
+            }
+
             cajatexto.SetActive(true);
             cajatexto.GetComponent<Text>().text = mensaje;
             activo = false;
