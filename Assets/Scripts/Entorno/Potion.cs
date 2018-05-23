@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Potion : MonoBehaviour {
     GameObject player;
-	// Use this for initialization
+	
 	void Start () {
         player = GameObject.FindWithTag("Player");
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        FindObjectOfType<AudioManager>().Play("Vida+");
-        Destroy(this.gameObject);
-        player.GetComponent<PlayerController>().AumentarSalud(Random.Range(8, 30));
+        if (collision.gameObject.tag == "Player")
+        {
+            FindObjectOfType<AudioManager>().Play("Vida+");
+            Destroy(this.gameObject);
+            player.GetComponent<PlayerController>().AumentarSalud(Random.Range(10, 20));
+        }
     }
 }
