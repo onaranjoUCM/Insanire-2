@@ -125,28 +125,34 @@ public class Enemy : MonoBehaviour {
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
+    public void ReducirSaludSp(int reduccion)
+    {
+        AudioManager audiomanager = FindObjectOfType<AudioManager>();
+
+        health -= reduccion;
+        if (health < 0) { health = 0; }
+    }
     public void ReducirSalud(int reduccion)
     {
         AudioManager audiomanager = FindObjectOfType<AudioManager>();
         string arma = player.GetComponent<PlayerController>().armaEquipada;
 
-        if (arma == "Sword")
-        {
-            audiomanager.Play("Espada");
-        }
-        else if (arma == "Axe")
-        {
-            audiomanager.Play("Hacha");
-        }
-        else if (arma == "Bow")
-        {
-            audiomanager.Play("Arco");
-        }
-        else if (arma == "Punch")
-        {
-            audiomanager.Play("Puñetazo");
-        }
-        
+            if (arma == "Sword")
+            {
+                audiomanager.Play("Espada");
+            }
+            else if (arma == "Axe")
+            {
+                audiomanager.Play("Hacha");
+            }
+            else if (arma == "Bow")
+            {
+                audiomanager.Play("Arco");
+            }
+            else if (arma == "Punch")
+            {
+                audiomanager.Play("Puñetazo");
+            }
         health -= reduccion;
         if (health < 0) { health = 0; }
     }

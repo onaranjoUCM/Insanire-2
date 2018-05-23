@@ -27,7 +27,7 @@ public class ClarisseSp : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(11, 0, true);
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.GetComponent<Enemy>().ReducirSalud(35);
+            collision.GetComponent<Enemy>().ReducirSaludSp(35);
             collision.GetComponent<Enemy>().Knockback(2);
         }
     }

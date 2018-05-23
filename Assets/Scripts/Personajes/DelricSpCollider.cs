@@ -25,7 +25,7 @@ public class DelricSpCollider : MonoBehaviour {
             aux += 4;
             if (aux % 4 == 0)
             {
-                collision.GetComponent<Enemy>().ReducirSalud(1);
+                collision.GetComponent<Enemy>().ReducirSaludSp(1);
             }
         }      
         Physics2D.IgnoreLayerCollision(11, 10, true);
