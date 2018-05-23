@@ -6,7 +6,6 @@ public class PuzzleFuego : MonoBehaviour {
 
     public GameObject bat;
     public GameObject AntorchasApagadas;
-    public GameObject AntorchasEncendidas;
 
     Transform[] filas = new Transform[4];
     int[] contadores = {0, 0, 0, 0};
@@ -95,7 +94,6 @@ public class PuzzleFuego : MonoBehaviour {
         {
             transform.GetChild(0).gameObject.SetActive(false);
             AntorchasApagadas.SetActive(false);
-            AntorchasEncendidas.SetActive(true);
         }
     }
 }

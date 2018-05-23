@@ -12,8 +12,7 @@ public class FinalBoss : MonoBehaviour {
     int fase = 1;
     Animator animator;
 
-    private void Awake()
-    {
+    void Start () {
         if (GameManager.instance.GetCharacter() == "Delric")
         {
             GetComponent<Animator>().runtimeAnimatorController = playerAnimators[0];
@@ -23,9 +22,7 @@ public class FinalBoss : MonoBehaviour {
         {
             GetComponent<Animator>().runtimeAnimatorController = playerAnimators[1];
         }
-    }
 
-    void Start () {
         gameObject.GetComponent<Enemy>().health = gameObject.GetComponent<Enemy>().health + GameManager.instance.GetPuntos();
         maxHealth = gameObject.GetComponent<Enemy>().health;
         InvokeRepeating("CheckHealth", 0, 1);
