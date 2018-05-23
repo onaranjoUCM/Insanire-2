@@ -10,7 +10,8 @@ public class Texto : MonoBehaviour
     public bool pausa = false;
     public GameObject puerta;
 
-    bool activo = true;
+    [HideInInspector]
+    public bool activo = true;
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class Texto : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && cajatexto.active)
+        if (Input.GetKeyDown(KeyCode.E) && cajatexto.activeInHierarchy && pausa)
         {
             cajatexto.SetActive(false);
             Time.timeScale = 1f;
@@ -33,6 +34,7 @@ public class Texto : MonoBehaviour
     {
         if (collision.tag == "Player" && activo)
         {
+            activo = false;
             if (pausa)
             {
                 Time.timeScale = 0f;
@@ -45,13 +47,15 @@ public class Texto : MonoBehaviour
 
             cajatexto.SetActive(true);
             cajatexto.GetComponent<Text>().text = mensaje;
-            activo = false;
             Invoke("OcultaTexto", 5f);
         }
     }
 
     private void OcultaTexto()
     {
-        cajatexto.SetActive(false);
+        if (cajatexto.GetComponent<Text>().text == mensaje)
+        {
+            cajatexto.SetActive(false);
+        }
     }
 }

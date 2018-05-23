@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
-
     }
 
     public void CargarNivel(string nivel)
@@ -44,9 +43,6 @@ public class GameManager : MonoBehaviour {
 
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Level Loaded");
-        Debug.Log(scene.name);
-        Debug.Log(mode);
         string escena = SceneManager.GetActiveScene().name;
         if (escena != "MenuInicio" && escena != "Instrucciones" && escena != "SeleccionPersonaje")
         {
@@ -130,5 +126,10 @@ public class GameManager : MonoBehaviour {
     public int GetPuntos()
     {
         return puntos;
+    }
+
+    public void SetPuntos(int nuevosPuntos)
+    {
+        puntos = nuevosPuntos;
     }
 }
