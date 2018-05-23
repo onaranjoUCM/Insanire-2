@@ -25,13 +25,12 @@ public class FinalBoss : MonoBehaviour {
 
         gameObject.GetComponent<Enemy>().health = gameObject.GetComponent<Enemy>().health + GameManager.instance.GetPuntos();
         maxHealth = gameObject.GetComponent<Enemy>().health;
-        InvokeRepeating("CheckHealth", 0, 1);
+        InvokeRepeating("CheckHealth", 0, 0.2f);
         animator = GetComponentInChildren<Animator>();
     }
 	
 	void Update () {
-
-        if (currentHealth < (maxHealth / 3) && fase == 1) { Fase2(); }
+        //if (currentHealth < (maxHealth / 3) && fase == 1) { Fase2(); }
     }
 
     void Fase2()
@@ -63,5 +62,6 @@ public class FinalBoss : MonoBehaviour {
     void CheckHealth()
     {
         currentHealth = gameObject.GetComponent<Enemy>().health;
+        if (currentHealth < (maxHealth / 3) && fase == 1) { Fase2(); }
     }
 }
