@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TextoSound : MonoBehaviour
 {
+    public GameObject Inquisidor;
+    private Vector3 offset;
     public GameObject cajatexto;
     public string mensaje;
     public bool pausa = false;
@@ -19,6 +21,7 @@ public class TextoSound : MonoBehaviour
         {
             mensaje = mensaje + " (Pulsa E para continuar)";
         }
+        offset = transform.position - Inquisidor.transform.position;
     }
 
     void Update()
@@ -28,6 +31,7 @@ public class TextoSound : MonoBehaviour
             cajatexto.SetActive(false);
             Time.timeScale = 1f;
         }
+        transform.position = Inquisidor.transform.position + offset;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

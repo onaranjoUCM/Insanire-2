@@ -13,9 +13,13 @@ public class GameManager : MonoBehaviour {
 
     private string character;
     private int puntos = 0;
+    private int muertes = 0;
 
+    string sceneName; // coge el nombre de la escena
     void Awake()
     {
+        Scene currentScene = SceneManager.GetActiveScene(); // coger la escena del momento
+        sceneName = currentScene.name;
         if (instance == null)
         {
             instance = this;
@@ -25,9 +29,25 @@ public class GameManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        SceneManager.activeSceneChanged += ChangedActiveScene;
     }
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        string currentName = current.name;
 
-    public void CargarNivel(string nivel)
+        if (currentName == null)
+        {
+            // CurrentScene has been removed
+            currentName = "Replaced";
+        }
+        string escena = SceneManager.GetActiveScene().name;
+        if (next.name != currentName && escena != "MenuInicio" && escena != "Instrucciones" && escena != "SeleccionPersonaje") 
+        {
+            ActualizarMuertes();
+            ActualizarPuntos();
+        }
+        }
+        public void CargarNivel(string nivel)
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(nivel);
@@ -48,6 +68,7 @@ public class GameManager : MonoBehaviour {
         string escena = SceneManager.GetActiveScene().name;
         if (escena != "MenuInicio" && escena != "Instrucciones" && escena != "SeleccionPersonaje")
         {
+            ActualizarMuertes();
             ActualizarPuntos();
             CambiarImagenPersonaje();
             CambiarImagenArma("Punch");
@@ -133,10 +154,18 @@ public class GameManager : MonoBehaviour {
         puntos = puntos + incremento;
         ActualizarPuntos();
     }
+    public void IncrementarMuertes(int incremento)
+    {
+        muertes = muertes + incremento;
+    }
 
     public void ActualizarPuntos()
     {
         GameObject.FindWithTag("txtPuntos").GetComponent<Text>().text = "Almas: " + puntos;
+    }
+    public void ActualizarMuertes()
+    {
+        GameObject.FindWithTag("txtMuertes").GetComponent<Text>().text = "Muertes: " +muertes;
     }
 
     public int GetPuntos()

@@ -22,8 +22,8 @@ public class DelricSpCollider : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            aux += 4;
-            if (aux % 4 == 0)
+            aux += 1;
+            if (aux % 6 == 0)
             {
                 collision.GetComponent<Enemy>().ReducirSaludSp(1);
             }

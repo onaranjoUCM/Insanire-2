@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
             {
                 HitboxSp.SetActive(true);
                 Descarga = Descarga + 1;
-                if (Descarga > 15)
+                if (Descarga > 20)
                 {
                     Energy.currentVal -= 3;
                     Descarga = 0;
@@ -159,9 +159,9 @@ public class PlayerController : MonoBehaviour
             Carga = Carga + 1;
         }
 
-        if (Carga > 200)
+        if (Carga > 100)
         {
-            Energy.CurrentVal += 10;
+            Energy.CurrentVal += 2;
             Carga = 0;
         }
 
@@ -177,6 +177,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetTrigger("Dead");
+            GameManager.instance.IncrementarMuertes(1);
             FindObjectOfType<AudioManager>().Play("Muerte");
             HabilidadActivada = false;
             HitboxSp.SetActive(false);
