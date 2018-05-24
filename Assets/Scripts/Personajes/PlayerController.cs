@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static bool HabilidadActivada = false;
+    static bool Heart = false;
 
     public float speed = 5;
     public int health = 100;
@@ -73,10 +74,30 @@ public class PlayerController : MonoBehaviour
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
     }
-
+    static bool aux = false;
+    void HeartPound()
+    {
+        if (Heart == true && aux == false)
+        {
+            FindObjectOfType<AudioManager>().Play("Heart");
+            aux = true;
+        }
+    }
     void Update()
     {
-        if(character == "Clarisse")
+        if (Health.currentVal < 60)
+        {
+            Heart = true;
+            HeartPound();
+        }
+        if (Health.currentVal > 60)
+        {
+            aux = false;
+            Heart = false;
+            FindObjectOfType<AudioManager>().Stop("Heart");
+        }
+
+        if (character == "Clarisse")
         {
             HitboxSp.SetActive(false);
             if (Cl_Active == false)
@@ -88,9 +109,9 @@ public class PlayerController : MonoBehaviour
                 if (Energy.currentVal > 50 && Cl_Active == false)
                 {
                     Energy.currentVal -= 50;
-                    Cl_Active = true;                 
-                    EnergyBall.SetActive(true);                                    
-                }             
+                    Cl_Active = true;
+                    EnergyBall.SetActive(true);
+                }
             }
         }
 
@@ -101,7 +122,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
             {
 
-                if (HabilidadActivada == false && Energy.currentVal>0)
+                if (HabilidadActivada == false && Energy.currentVal > 0)
                 {
                     HabilidadActivada = true;
                     FindObjectOfType<AudioManager>().Play("DelricSp");
@@ -112,20 +133,20 @@ public class PlayerController : MonoBehaviour
                     HitboxSp.SetActive(false);
                     FindObjectOfType<AudioManager>().Stop("DelricSp");
                 }
-                        
+
             }
 
             if (HabilidadActivada == true)
             {
-                  HitboxSp.SetActive(true);
-                  Descarga = Descarga + 1;
-                 if (Descarga > 15)
-                 {
+                HitboxSp.SetActive(true);
+                Descarga = Descarga + 1;
+                if (Descarga > 15)
+                {
                     Energy.currentVal -= 3;
                     Descarga = 0;
-                 }
-                 if (Energy.currentVal < 1)
-                 {
+                }
+                if (Energy.currentVal < 1)
+                {
                     HabilidadActivada = false;
                     HitboxSp.SetActive(false);
                     FindObjectOfType<AudioManager>().Stop("DelricSp");
@@ -133,7 +154,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Energy.CurrentVal < Energy.MaxVal) 
+        if (Energy.CurrentVal < Energy.MaxVal)
         {
             Carga = Carga + 1;
         }
@@ -152,7 +173,9 @@ public class PlayerController : MonoBehaviour
             {
                 Attack();
             }
-        } else {
+        }
+        else
+        {
             animator.SetTrigger("Dead");
             FindObjectOfType<AudioManager>().Play("Muerte");
             HabilidadActivada = false;
@@ -169,7 +192,7 @@ public class PlayerController : MonoBehaviour
         if (!Cl_Active)
         {
             move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed * Time.deltaTime;
-            
+
         }
 
         float distance = move.magnitude;
@@ -244,10 +267,11 @@ public class PlayerController : MonoBehaviour
             {
                 posicionFlecha.x = posicionFlecha.x + 1;
                 flecha.transform.Rotate(0f, 180f, 0f);
-                Instantiate(flecha, posicionFlecha, Quaternion.Euler(0,180,0));
+                Instantiate(flecha, posicionFlecha, Quaternion.Euler(0, 180, 0));
             }
             FindObjectOfType<AudioManager>().Play("ArcoShoot");
-        } else
+        }
+        else
         {
             if (!armaActivada)
             {
@@ -255,13 +279,13 @@ public class PlayerController : MonoBehaviour
                 armaActivada = true;
             }
         }
-        
+
     }
 
     // Reduce la salud en la cantidad pasada por parámetro (Hasta un mínimo de 0)
     public void ReducirSalud(int reduccion)
     {
-        Health.CurrentVal -= reduccion;
+        Health.CurrentVal -= reduccion;          
     }
 
     // Aumenta la salud en la cantidad pasada por parámetro (Hasta un máximo de 100)
