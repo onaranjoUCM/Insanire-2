@@ -32,6 +32,7 @@ public class Texto : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        GameManager.instance.CambiarIconoSp();
         if (collision.tag == "Player" && activo)
         {
             activo = false;
@@ -58,4 +59,5 @@ public class Texto : MonoBehaviour
             cajatexto.SetActive(false);
         }
     }
+
 }

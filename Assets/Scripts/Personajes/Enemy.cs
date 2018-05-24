@@ -55,7 +55,6 @@ public class Enemy : MonoBehaviour {
             }
         }
     }
-
     void Move()
     {
         // Si está alejado del jugador se acerca a él
@@ -128,7 +127,6 @@ public class Enemy : MonoBehaviour {
     public void ReducirSaludSp(int reduccion)
     {
         AudioManager audiomanager = FindObjectOfType<AudioManager>();
-
         health -= reduccion;
         if (health < 0) { health = 0; }
     }

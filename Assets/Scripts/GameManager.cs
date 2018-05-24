@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     public Sprite[] characterPictures;
+    public Sprite[] SpPictures;
     public Sprite[] weaponsPictures;
+    public GameObject SpIcon;
     public GameObject marco;
 
     private string character;
@@ -69,6 +71,19 @@ public class GameManager : MonoBehaviour {
         if (character == "Clarisse")
         {
             marco.transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().sprite = characterPictures[1];
+        }
+    }
+    public void CambiarIconoSp()
+    {
+        SpIcon.SetActive(true);
+        if (character == "Delric")
+        {
+            SpIcon.GetComponent<Image>().sprite = SpPictures[0];
+        }
+
+        if (character == "Clarisse")
+        {
+            SpIcon.GetComponent<Image>().sprite = SpPictures[1];
         }
     }
 

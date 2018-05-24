@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour {
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            s.source.spatialBlend = s.SpatialBlend;
         }
 	}
     private void Start()
@@ -70,6 +71,7 @@ public class AudioManager : MonoBehaviour {
         else if (next.name == "Nivel 2")
         {
             Play("ThemeNivel2");
+            Play("CreepySound");
         }
         else if (next.name == "Nivel 3")
         {
