@@ -85,12 +85,12 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (Health.currentVal < 60)
+        if (Health.currentVal <= 25)
         {
             Heart = true;
             HeartPound();
         }
-        if (Health.currentVal > 60)
+        if (Health.currentVal > 25)
         {
             aux = false;
             Heart = false;
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
             {
                 EnergyBall.SetActive(false);
             }
-            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
+            if (Input.GetKeyDown(KeyCode.N) && GameManager.instance.EscenaActual() != "Introduccion")
             {
                 if (Energy.currentVal > 50 && Cl_Active == false)
                 {
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         {
             EnergyBall.SetActive(false);
 
-            if (Input.GetKeyDown(KeyCode.L) && GameManager.instance.EscenaActual() != "Introduccion")
+            if (Input.GetKeyDown(KeyCode.N) && GameManager.instance.EscenaActual() != "Introduccion")
             {
 
                 if (HabilidadActivada == false && Energy.currentVal > 0)
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         {
             Move();
 
-            if (Input.GetKeyDown(KeyCode.K) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
+            if (Input.GetKeyDown(KeyCode.Space) && !animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAttack"))
             {
                 Attack();
             }

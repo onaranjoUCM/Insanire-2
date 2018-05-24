@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour {
             marco.transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().sprite = characterPictures[1];
         }
     }
+
     public void CambiarIconoSp()
     {
         SpIcon.SetActive(true);
