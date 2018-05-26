@@ -3,15 +3,35 @@
 /* Padding below the footer and lighter body text */
 
 html,body {
-  font-size: 18px;
+    font-size: 18px;
+    height: 100%;
+    margin: 0;
 }
+
 body {
   padding-bottom: 1rem;
   color: #5a5a5a;
+  background:rgba(0,0,0,0);
 }
 
+#titulo {
+    color: darkred;
+    text-align: center;
+    font-size: 72px;
+}
 
+html { 
+  background: url(../img/background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
+.btn {
+    color: black;
+    background-color: darkred;
+}
 
 /* CUSTOMIZE THE HEADER
 -------------------------------------------------- */
